@@ -1,12 +1,10 @@
 <script lang="ts">
-  import { initializeLocale, setLocale, setLocaleToBrowser } from "$i18n/i18n";
-  import { _, getLocaleFromNavigator, locale } from "svelte-i18n";
+  import * as m from "$paraglide/messages";
+    import { onSetLanguageTag, setLanguageTag } from "$paraglide/runtime";
   import { invoke } from "@tauri-apps/api/core";
 
   let name = $state("");
   let greetMsg = $state("");
-
-  initializeLocale();
 
   async function greet(event: Event) {
     event.preventDefault();
@@ -14,6 +12,10 @@
     greetMsg = await invoke("greet", { name });
   }
 
+  onSetLanguageTag((new_tag) => {
+    console.log("language tag changed to", new_tag);
+    alert("aaa " + new_tag + " " + m.task());
+  });
 </script>
 
 <main class="container">
@@ -31,9 +33,9 @@
     </a>
   </div>
   <p>1Click on the Tauri, Vite, and SvelteKit logos to learn more.</p>
-  <!-- <p>{$_("task")}</p> -->
-  <button onclick={() => setLocale("ja")}>日本語</button>
-  <button onclick={() => setLocale("en")}>English</button>
+  <p>{m.task() + " aaa " + m.list()}</p>
+  <button onclick={() => setLanguageTag("ja")}>日本語</button>
+  <button onclick={() => setLanguageTag("en")}>English</button>
 
   <form class="row" onsubmit={greet}>
     <input id="greet-input" placeholder="Enter a name..." bind:value={name} />

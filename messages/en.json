@@ -1,10 +1,11 @@
 {
+    "$schema": "https://inlang.com/schema/inlang-message-format",
     "task": "Task",
     "list": "List",
     "detail": "Detail",
     "create": "Create",
     "edit": "Edit",
-    "delete": "Delete",
+    "remove": "Delete",
     "importance": "Importance",
     "priority": "Priority",
     "due_date": "Due Date",

@@ -16,7 +16,7 @@
       "$layout/*": ["src/lib/ui/layout/*"],
       "$component/*": ["src/lib/ui/component/*"],
       "$service/*": ["src/lib/service/*"],
-      "$i18n/*": ["src/i18n/*"]
+      "$paraglide/*": ["src/paraglide/*"]
     }
   }
   // Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
