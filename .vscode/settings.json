@@ -4,5 +4,9 @@
         "qwik",
         "tauri",
         "varubogu"
+    ],
+    "svelte.enable-ts-plugin": true,
+    "i18n-ally.localesPaths": [
+        "src/i18n"
     ]
 }

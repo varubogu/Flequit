@@ -1,0 +1,13 @@
+{
+    "task": "Task",
+    "list": "List",
+    "detail": "Detail",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "importance": "Importance",
+    "priority": "Priority",
+    "due_date": "Due Date",
+    "completed": "Completed",
+    "incomplete": "Incomplete"
+}
