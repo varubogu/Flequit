@@ -19,6 +19,9 @@
     "@tanstack/table-core": "^8.20.5",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",
+    "radix-svelte": "^0.9.0",
+    "svelte-headless-table": "^0.18.3",
+    "svelte-radix": "^2.0.1",
     "zod": "^3.24.1"
   },
   "devDependencies": {

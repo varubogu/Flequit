@@ -10,7 +10,7 @@
 	lang="ts"
 	generics="TData, TValue, TContext extends HeaderContext<TData, TValue> | CellContext<TData, TValue>"
 >
-	import { RenderComponentConfig, RenderSnippetConfig } from "./render-helpers.js";
+	import { RenderComponentConfig, RenderSnippetConfig } from "./render-helpers";
 	type Props = {
 		/** The cell or header field of the current cell's column definition. */
 		content?: TContext extends HeaderContext<TData, TValue>

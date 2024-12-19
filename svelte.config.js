@@ -11,6 +11,16 @@ const config = {
   ],
   kit: {
     adapter: adapter(),
+    alias: {
+      "$components/*": "src/lib/components/*",
+      "$ui/*": "src/lib/components/ui/*",
+      "$lib/*": "src/lib/*",
+      "$routes/*": "src/routes/*",
+      "$services/*": "src/services/*",
+      "$types/*": "src/types/*",
+      "$paraglide/*": "src/paraglide/*",
+      "$utils/*": "src/utils/*"
+    }
   },
 };
 

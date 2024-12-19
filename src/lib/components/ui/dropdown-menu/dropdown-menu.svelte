@@ -6,8 +6,8 @@
     import User from "lucide-svelte/icons/user";
     import { tick } from "svelte";
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index";
-    import * as Command from "$lib/components/ui/command/index.js";
-    import { Button } from "$lib/components/ui/button/index.js";
+    import * as Command from "$lib/components/ui/command/index";
+    import { Button } from "$lib/components/ui/button/index";
 
     const labels = [
      "feature",
