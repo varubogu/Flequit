@@ -37,6 +37,7 @@
    </script>
 
    <Sidebar.Root>
+    <Sidebar.Header />
     <Sidebar.Content>
      <Sidebar.Group>
       <Sidebar.GroupLabel>Application</Sidebar.GroupLabel>
@@ -44,13 +45,11 @@
        <Sidebar.Menu>
         {#each items as item (item.title)}
          <Sidebar.MenuItem>
-          <Sidebar.MenuButton>
-           {#snippet child({ props })}
+          <Sidebar.MenuButton let:props>
             <a href={item.url} {...props}>
-             <item.icon />
-             <span>{item.title}</span>
+              <item.icon />
+              <span>{item.title}</span>
             </a>
-           {/snippet}
           </Sidebar.MenuButton>
          </Sidebar.MenuItem>
         {/each}
