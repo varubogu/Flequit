@@ -44,7 +44,10 @@
   <p>{greetMsg}</p>
 </main>
 <div>
-  <a href="/about">About</a>
+  <a href="/">Home</a> |
+  <a href="/about">About</a> |
+  <a href="/settings">Settings</a> |
+  <a href="/tasks">Tasks</a>
 </div>
 
 <style>

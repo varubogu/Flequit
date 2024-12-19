@@ -8,3 +8,8 @@
 <ParaglideJS i18n={i18n}>
   {@render children()}
 </ParaglideJS>
+
+<style>
+  @import "../global.css";
+</style>
+

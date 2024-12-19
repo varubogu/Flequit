@@ -12,11 +12,14 @@
     "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
+      "$components/*": ["src/lib/components/*"],
+      "$ui/*": ["src/lib/components/ui/*"],
       "$lib/*": ["src/lib/*"],
-      "$layout/*": ["src/lib/ui/layout/*"],
-      "$component/*": ["src/lib/ui/component/*"],
-      "$service/*": ["src/lib/service/*"],
-      "$paraglide/*": ["src/paraglide/*"]
+      "$routes/*": ["src/routes/*"],
+      "$services/*": ["src/services/*"],
+      "$types/*": ["src/types/*"],
+      "$paraglide/*": ["src/paraglide/*"],
+      "$utils/*": ["src/utils/*"]
     }
   }
   // Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
