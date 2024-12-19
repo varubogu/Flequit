@@ -1,11 +1,17 @@
-<script>
+<script lang="ts">
   import "../global.css";
+  import { onMount } from 'svelte';
+  import { theme } from '$lib/stores/theme';
   import Sidebar from "$components/sidebar.svelte";
+
+  onMount(() => {
+    theme.initialize();
+  });
 </script>
 
-<div class="flex min-h-screen bg-background">
+<div class="min-h-screen">
   <Sidebar />
-  <main class="flex-1 p-4">
+  <main class="md:ml-64 p-4">
     <slot />
   </main>
 </div>
