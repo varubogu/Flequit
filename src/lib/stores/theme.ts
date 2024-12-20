@@ -150,7 +150,7 @@ function createThemeStore() {
                 const { theme: storedTheme, preset: storedPreset } = getStoredTheme();
                 themeStore.set(storedTheme);
                 presetStore.set(storedPreset);
-                updateTheme(storedTheme, defaultPresets.find(p => p.name === storedPreset) || defaultPresets[0]);
+                updateTheme(storedTheme, defaultPresets.find(p => p.name === storedPreset) || defaultPresets[0], true);
 
                 // システムのテーマ変更を監視
                 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
@@ -165,7 +165,7 @@ function createThemeStore() {
 }
 
 // HTML要素のクラスとCSSカスタムプロパティを更新
-function updateTheme(theme: Theme, preset: ThemePreset) {
+function updateTheme(theme: Theme, preset: ThemePreset, skipTransition: boolean = false) {
     if (!browser) return;
 
     const root = document.documentElement;
@@ -179,18 +179,22 @@ function updateTheme(theme: Theme, preset: ThemePreset) {
         root.classList.remove('dark');
     }
 
-    // トランジションクラスの追加
-    root.classList.add('transitioning');
+    // トランジションクラスの追加（初期化時はスキップ）
+    if (!skipTransition) {
+        root.classList.add('transitioning');
+    }
 
     // カスタムプロパティの更新
     Object.entries(colors).forEach(([key, value]) => {
         root.style.setProperty(`--${key}`, value);
     });
 
-    // トランジション後にクラスを削除
-    setTimeout(() => {
-        root.classList.remove('transitioning');
-    }, 200);
+    // トランジション後にクラスを削除（初期化時はスキップ）
+    if (!skipTransition) {
+        setTimeout(() => {
+            root.classList.remove('transitioning');
+        }, 200);
+    }
 }
 
 export const theme = createThemeStore();
