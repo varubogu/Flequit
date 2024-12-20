@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Command as CommandPrimitive } from "bits-ui";
+	import { createCommand } from '@melt-ui/svelte';
 	import { cn } from "$lib/utils";
 
 	let {
@@ -7,15 +7,23 @@
 		value = $bindable(""),
 		class: className,
 		...restProps
-	}: CommandPrimitive.RootProps = $props();
+	} = $props();
+
+	const { elements: { root }, states: { inputValue } } = createCommand({
+		defaultInputValue: value
+	});
+
+	$effect(() => {
+		value = $inputValue;
+	});
 </script>
 
-<CommandPrimitive.Root
+<div
+	use:root
 	class={cn(
 		"bg-popover text-popover-foreground flex h-full w-full flex-col overflow-hidden rounded-md",
 		className
 	)}
-	bind:value
-	bind:ref
+	bind:this={ref}
 	{...restProps}
 />
