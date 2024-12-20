@@ -81,23 +81,16 @@
             )}
             data-collapsed={isCollapsed}
         >
-            <div class="p-2 border-b flex justify-between items-center">
-                {#if showContent}
-                    <span class="font-semibold px-1" transition:fade={{ duration: 150, delay: 150 }}>Flequit</span>
-                    <div class="flex items-center gap-1" transition:fade={{ duration: 150, delay: 150 }}>
-                        <ThemeToggle />
-                        <button class="hover:bg-accent rounded-md p-1" on:click={toggleSidebar}>
-                            <ChevronLeft class="w-6 h-6" />
-                        </button>
-                    </div>
-                {:else}
-                    <button class="hover:bg-accent rounded-md p-1 mx-auto" on:click={toggleSidebar}>
-                        <ChevronRight class="w-6 h-6" />
+            <div class="flex items-center justify-between p-2">
+                <div class="flex items-center gap-2">
+                    <button class="hover:bg-accent rounded-md p-1" on:click={toggleSidebar}>
+                        <Menu class="w-6 h-6" />
                     </button>
-                {/if}
+                    <ThemeToggle />
+                </div>
             </div>
             <div class="flex-1 overflow-y-auto overflow-x-hidden">
-                <!-- 日付フィ���ター -->
+                <!-- 日付フィルター -->
                 <Sidebar.Group>
                     <Sidebar.Menu class="space-y-1 p-2">
                         <Sidebar.MenuItem>
@@ -331,13 +324,13 @@
                 <div class="p-4 border-b flex justify-between items-center">
                     <span class="font-semibold">Flequit</span>
                     <div class="flex items-center gap-2">
-                        <ThemeToggle />
                         <button class="hover:bg-accent rounded-md p-1" on:click={toggleSidebar}>
                             <Menu class="w-6 h-6" />
                         </button>
+                        <ThemeToggle />
                     </div>
                 </div>
-                <div class="flex-1 overflow-y-auto px-2">
+                <div class="flex-1 overflow-y-auto ">
                     <!-- 日付フィルター -->
                     <Sidebar.Group>
                         <Sidebar.Menu class="space-y-1">
@@ -472,7 +465,7 @@
                         </Sidebar.Menu>
                     </Sidebar.Group>
 
-                    <div class="border-t p-2">
+                    <div class="border-t p-1">
                         <Sidebar.Group>
                             <Sidebar.Menu class="space-y-1">
                                 <Sidebar.MenuItem>
@@ -508,7 +501,7 @@
                                         class={cn(
                                             "flex h-9 items-center justify-center",
                                             "rounded-full bg-accent/50",
-                                            !isCollapsed && "justify-start px-3"
+                                            !isCollapsed && "justify-start"
                                         )}
                                     >
                                         <User class="h-4 w-4" />
@@ -561,7 +554,6 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        padding: 0.5rem;
         height: 2.25rem;
     }
 
@@ -580,7 +572,6 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        padding: 0.5rem;
         height: 2.25rem;
         width: 100%;
     }
