@@ -2,19 +2,23 @@
   import "$src/global.css";
   import { onMount } from 'svelte';
   import { theme } from '$lib/stores/theme';
-  import Sidebar from "$components/sidebar.svelte";
+  // import Sidebar from "$components/sidebar.svelte";
+  import * as Sidebar from "$ui/sidebar/index";
+  import AppSidebar from "$components/app-sidebar.svelte";
 
+  let { children } = $props();
   onMount(() => {
     theme.initialize();
   });
 </script>
 
-<div class="min-h-screen grid grid-cols-[auto,1fr]">
-  <Sidebar />
+<Sidebar.Provider>
+  <AppSidebar />
   <main class="p-4">
-    <slot />
+    <!-- <slot /> -->
+     {@render children?.()}
   </main>
-</div>
+</Sidebar.Provider>
 
 <style>
   :global(html, body) {
