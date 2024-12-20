@@ -71,12 +71,12 @@
 </button>
 
 <!-- デスクトップサイドバー -->
-<div class="fixed left-0 top-0 h-screen {isMobile ? 'hidden' : ''}">
+<div class="left-0 top-0 h-screen {isMobile ? 'hidden' : ''}">
     <Sidebar.Provider>
         <Sidebar.Root
             class={cn(
                 "sidebar-root border-r transition-all duration-300 overflow-x-hidden",
-                isCollapsed ? "w-16" : "w-64",
+                isCollapsed ? "w-[var(--sidebar-collapsed-width)]" : "w-[var(--sidebar-width)]",
                 isTransitioning && "overflow-hidden"
             )}
             data-collapsed={isCollapsed}
@@ -582,7 +582,7 @@
         flex-shrink: 0;
     }
 
-    /* 横スクロールを防止 */
+    /* 横ス��ロールを防止 */
     :global(.overflow-x-hidden) {
         overflow-x: hidden;
     }

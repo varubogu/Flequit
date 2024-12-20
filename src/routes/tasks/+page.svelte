@@ -2,76 +2,15 @@
     import { Button } from "$lib/components/ui/button";
     import { Card } from "$lib/components/ui/card";
     import { ScrollArea } from "$lib/components/ui/scroll-area";
-    import { Separator } from "$lib/components/ui/separator";
-    import { Sheet, SheetContent, SheetTrigger } from "$lib/components/ui/sheet";
-    import { Plus, Menu, ChevronLeft } from "lucide-svelte";
+    import { ChevronLeft } from "lucide-svelte";
+    import { Plus } from "lucide-svelte";
     import { fly } from "svelte/transition";
 
     let selectedTask: string | null = null;
     let isDetailOpen = false;
 </script>
 
-<div class="container mx-auto h-screen flex">
-    <!-- モバイル用ハンバーガーメニュー -->
-    <div class="lg:hidden">
-        <Sheet>
-            <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" class="fixed top-4 left-4">
-                    <Menu class="h-6 w-6" />
-                </Button>
-            </SheetTrigger>
-            <SheetContent side="left" class="w-72 flex flex-col">
-                <div class="flex-1">
-                    <Button variant="ghost" class="w-full justify-start">
-                        <span class="mr-2">📅</span>
-                        今日
-                    </Button>
-                    <Button variant="ghost" class="w-full justify-start">
-                        <span class="mr-2">📅</span>
-                        明日
-                    </Button>
-                    <Button variant="ghost" class="w-full justify-start">
-                        <span class="mr-2">📅</span>
-                        今週
-                    </Button>
-
-                    <Separator class="my-4" />
-
-                    <!-- プロジェクトリスト -->
-                    <div class="space-y-2">
-                        <div class="pl-2">
-                            <Button variant="ghost" class="w-full justify-start">
-                                プロジェクト1
-                            </Button>
-                            <div class="pl-4">
-                                <Button variant="ghost" class="w-full justify-start">
-                                    リスト1
-                                </Button>
-                                <Button variant="ghost" class="w-full justify-start">
-                                    リスト2
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-auto space-y-2">
-                    <Button variant="ghost" class="w-full justify-start">
-                        <span class="mr-2">❔</span>
-                        ヘルプ
-                    </Button>
-                    <Button variant="ghost" class="w-full justify-start">
-                        <span class="mr-2">⚙️</span>
-                        設定
-                    </Button>
-                    <Button variant="ghost" class="w-full justify-start">
-                        ユーザー名
-                    </Button>
-                </div>
-            </SheetContent>
-        </Sheet>
-    </div>
-
+<div class="h-screen flex">
     <!-- タスクリスト -->
     <div class="flex-1 bg-muted/30">
         <ScrollArea class="h-full">
