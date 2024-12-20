@@ -1,5 +1,5 @@
 <script lang="ts">
-  import "../global.css";
+  import "$src/global.css";
   import { onMount } from 'svelte';
   import { theme } from '$lib/stores/theme';
   import Sidebar from "$components/sidebar.svelte";
