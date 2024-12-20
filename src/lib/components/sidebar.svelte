@@ -265,7 +265,7 @@
 
             <div class="border-t">
                 <Sidebar.Group>
-                    <Sidebar.Menu class="space-y-1 p-2">
+                    <Sidebar.Menu class="space-y-1 p-1">
                         <Sidebar.MenuItem>
                             <a
                                 href="/help"
