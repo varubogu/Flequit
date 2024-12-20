@@ -64,14 +64,14 @@
 
 <!-- モバイルメニューボタン -->
 <button
-    class="md:hidden fixed top-4 left-4 z-50 hover:bg-accent rounded-md p-1"
+    class="{!isMobile ? 'hidden' : ''} fixed top-4 left-4 z-50 hover:bg-accent rounded-md p-1"
     on:click={toggleSidebar}
 >
     <Menu class="w-6 h-6" />
 </button>
 
 <!-- デスクトップサイドバー -->
-<div class="hidden md:block">
+<div class="fixed left-0 top-0 h-screen {isMobile ? 'hidden' : ''}">
     <Sidebar.Provider>
         <Sidebar.Root
             class={cn(
@@ -97,7 +97,7 @@
                 {/if}
             </div>
             <div class="flex-1 overflow-y-auto overflow-x-hidden">
-                <!-- 日付フィルター -->
+                <!-- 日付フィ���ター -->
                 <Sidebar.Group>
                     <Sidebar.Menu class="space-y-1 p-2">
                         <Sidebar.MenuItem>
