@@ -9,14 +9,11 @@ export const displaySchema = z.object({
 
 export type Display = z.infer<typeof displaySchema>;
 
-export const projectDisplaySchema = ProjectSchema.extend(displaySchema.shape)
-export const ProjectExtendedDisplay = z.union([ProjectSchema, displaySchema])
-export type ProjectExtendedDisplay = z.infer<typeof ProjectExtendedDisplay>;
+export const ProjectDisplaySchema = ProjectSchema.extend(displaySchema.shape);
+export type ProjectDisplay = z.infer<typeof ProjectDisplaySchema>;
 
-export const taskListDisplaySchema = TaskListSchema.extend(displaySchema.shape)
-export const TaskListExtendedDisplay = z.union([TaskListSchema, displaySchema])
-export type TaskListExtendedDisplay = z.infer<typeof TaskListExtendedDisplay>;
+export const taskListDisplaySchema = TaskListSchema.extend(displaySchema.shape);
+export type TaskListDisplay = z.infer<typeof taskListDisplaySchema>;
 
-export const taskDisplaySchema = TaskSchema.extend(displaySchema.shape)
-export const TaskExtendedDisplay = z.union([TaskSchema, displaySchema])
-export type TaskExtendedDisplay = z.infer<typeof TaskExtendedDisplay>;
+export const taskDisplaySchema = TaskSchema.extend(displaySchema.shape);
+export type TaskDisplay = z.infer<typeof taskDisplaySchema>;
