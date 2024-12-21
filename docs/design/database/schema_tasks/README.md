@@ -1,11 +1,21 @@
-# 1. schema: tasks
+# schema: tasks
 
 Representing the structure of a task.
 
-## 1.1 table: tasks.projects
+## tables
 
-## 1.2 table: tasks.lists
+### projects
 
-## 1.3 table: tasks.tasks
+Table for storing project information
 
-## 1.4 table: tasks.subtasks
+### lists
+
+Table for storing list information
+
+### tasks
+
+Table for storing task information
+
+### subtasks
+
+Table for storing subtask information

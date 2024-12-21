@@ -7,8 +7,10 @@
 - TypeScript
 - Bun
 - Vite
-- Qwik
-- QwikUI
+- ~~Qwik~~
+- ~~QwikUI~~
+- Svelte
+- SvelteKit
 - TailwindCSS
 
 ### Backend (Shared)
@@ -28,7 +30,8 @@
 
 - Rust
 - Wasm
-- QwikCity
+- ~~QwikCity~~
+- SvelteKit
 
 ### Development & Testing
 

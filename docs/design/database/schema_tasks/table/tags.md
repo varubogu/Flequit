@@ -1,4 +1,4 @@
-# table: tags
+# table: flequit_tasks.tags
 
 | Column Name | Data Type | NULL |      Default      | Primary Key | Foreign Key | Unique | Check Constraint |    Description     |
 | ----------- | --------- | ---- | ----------------- | ----------- | ----------- | ------ | ---------------- | ------------------ |

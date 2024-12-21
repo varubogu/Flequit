@@ -1,5 +1,11 @@
 # table: sync_log
 
+## description
+
+Table for storing synchronization logs
+
+## structure
+
 | Column Name  | Data Type | NULL |      Default      | Primary Key | Foreign Key | Unique | Check Constraint |    Description      |
 | ------------ | --------- | ---- | ----------------- | ----------- | ----------- | ------ | ---------------- | ------------------ |
 | id           | TEXT      | NO   |                   | YES         |             | YES    |                  | Sync log ID        |

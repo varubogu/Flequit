@@ -1,6 +1,6 @@
-# Data Synchronization Policy
+# Data synchronization flowchart
 
-## Synchronization Policy for Local Files and Cloud Storage
+## Synchronization flow for Local Files and Cloud Storage
 
 The following data will be used for synchronization.
 

@@ -1,5 +1,11 @@
 # table: messages
 
+## description
+
+Table for storing program execution logs
+
+## structure
+
 | Column Name | Data Type | NULL |      Default      | Primary Key | Foreign Key | Unique | Check Constraint |    Description     |
 | ----------- | --------- | ---- | ----------------- | ----------- | ----------- | ------ | ---------------- | ------------------ |
 | id          | TEXT      | NO   |                   | YES         |             | YES    |                  | Log ID             |
