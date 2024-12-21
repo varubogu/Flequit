@@ -1,12 +1,10 @@
 <script lang="ts">
   import Calendar from "lucide-svelte/icons/calendar";
-  import House from "lucide-svelte/icons/house";
   import Inbox from "lucide-svelte/icons/inbox";
-  import Search from "lucide-svelte/icons/search";
   import Settings from "lucide-svelte/icons/settings";
   import * as Sidebar from "$ui/sidebar/index";
-  import type { ProjectDisplay } from "$src/types/attachment/display";
-  import { AlarmMinus, ChevronDown, HelpCircle, Plus, UserIcon } from "lucide-svelte";
+  import type { Project } from "$src/types/project";
+  import { AlarmMinus, ChevronDown, HelpCircle, Search, UserIcon } from "lucide-svelte";
   import { Collapsible } from "bits-ui";
 
   // Menu items.
@@ -26,34 +24,126 @@
       url: "#",
       icon: Calendar,
     },
+    {
+      title: "未整理",
+      url: "#",
+      icon: Inbox,
+    },
+    {
+      title: "検索",
+      url: "#",
+      icon: Search,
+    }
   ];
 
-  const projectItems: ProjectDisplay[] = [
+  const projectItems: Project[] = [
     {
       id: "1",
       name: "Project 1",
       icon: "🏠",
-      task_lists: [
+      url: "#",
+      taskLists: [
         {
+          id: "1",
           name: "Task List 1",
           url: "#",
           icon: "🏠",
+          tasks: [
+            {
+              id: "1",
+              name: "Task 1",
+              url: "#",
+              icon: "🏠",
+              description: "Task 1 description",
+              importance: 1,
+              priority: 1,
+              dueDate: "2024-01-01",
+              completeDate: "2024-01-01",
+              completed: false,
+              cycle: "daily",
+              subTasks: [
+                {
+                  id: "1",
+                  name: "Sub Task 1",
+                  url: "#",
+                  icon: "🏠",
+                  description: "Sub Task 1 description",
+                  importance: 1,
+                  priority: 1,
+                  dueDate: "2024-01-01",
+                  completeDate: "2024-01-01",
+                  completed: false,
+                  cycle: "daily",
+                }
+              ]
+            }
+          ]
         },
         {
+          id: "2",
           name: "Task List 2",
           url: "#",
           icon: "🏠",
+          tasks: [
+            {
+              id: "2",
+              name: "Task 2",
+              url: "#",
+              icon: "🏠",
+              description: "Task 2 description",
+              importance: 1,
+              priority: 1,
+              dueDate: "2024-01-01",
+              completeDate: "2024-01-01",
+              completed: false,
+              cycle: "daily",
+              subTasks: []
+            }
+          ]
         },
       ],
     },
     {
       id: "2",
       name: "Project 2",
-      task_lists: [
+      url: "#",
+      icon: "🏠",
+      taskLists: [
         {
+          id: "1",
           name: "Task List 1",
           url: "#",
           icon: "🏠",
+          tasks: [
+            {
+              id: "1",
+              name: "Task 1",
+              url: "#",
+              icon: "🏠",
+              description: "Task 1 description",
+              importance: 1,
+              priority: 1,
+              dueDate: "2024-01-01",
+              completeDate: "2024-01-01",
+              completed: false,
+              cycle: "daily",
+              subTasks: [
+                {
+                  id: "1",
+                  name: "Sub Task 1",
+                  url: "#",
+                  icon: "🏠",
+                  description: "Sub Task 1 description",
+                  importance: 1,
+                  priority: 1,
+                  dueDate: "2024-01-01",
+                  completeDate: "2024-01-01",
+                  completed: false,
+                  cycle: "daily",
+                }
+              ]
+            }
+          ]
         },
       ],
     },
@@ -124,13 +214,13 @@
             <!-- Project task list -->
             <Collapsible.Content>
               <Sidebar.Menu>
-                {#each item.task_lists as task (task.name)}
+                {#each item.taskLists as taskList (taskList.name)}
                   <Sidebar.MenuItem>
                     <Sidebar.MenuItem style="padding-left: 20px;">
                       <Sidebar.MenuButton>
                         {#snippet child({ props })}
-                          <a href={task.url} {...props}>
-                            <span>{task.name}</span>
+                          <a href={taskList.url} {...props}>
+                            <span>{taskList.name}</span>
                           </a>
                         {/snippet}
                       </Sidebar.MenuButton>

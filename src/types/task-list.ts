@@ -1,8 +1,11 @@
 import { z } from "zod";
 import { TaskSchema } from "./task";
 import { TaskListCoreSchema } from "./core/task-list";
+import { displaySchema } from "./attachment/display";
 
-export const TaskListSchema = TaskListCoreSchema.extend({
+const taskListDisplaySchema = TaskListCoreSchema.extend(displaySchema.shape);
+
+export const TaskListSchema = taskListDisplaySchema.extend({
     tasks: z.array(TaskSchema),
 });
 
