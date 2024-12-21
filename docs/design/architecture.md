@@ -12,6 +12,7 @@
 - Svelte
 - SvelteKit
 - TailwindCSS
+- shadcn-svelte@next
 
 ### Backend (Shared)
 
