@@ -12,7 +12,7 @@
   });
 </script>
 
-<Sidebar.Provider>
+<Sidebar.Provider open={true} controlledOpen={true}>
   <AppSidebar />
   <main class="p-4">
     {@render children?.()}
