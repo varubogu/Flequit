@@ -1,8 +1,7 @@
 import { z } from "zod";
+import { TagCoreSchema } from "./core/tag";
 
-export const tagSchema = z.object({
-  id: z.string().uuid().nonempty(),
-  name: z.string().nonempty(),
+export const TagSchema = TagCoreSchema.extend({
 });
 
-export type Tag = z.infer<typeof tagSchema>;
+export type Tag = z.infer<typeof TagSchema>;

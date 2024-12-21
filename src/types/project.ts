@@ -1,11 +1,9 @@
 import { z } from "zod";
-import { taskListSchema } from "./task_list";
+import { ProjectCoreSchema } from "./core/project";
+import { TaskListSchema } from "./task-list";
 
-export const projectSchema = z.object({
-  id: z.string().uuid().nonempty(),
-  icon: z.string().optional(),
-  name: z.string().nonempty(),
-  task_list: taskListSchema,
+export const ProjectSchema = ProjectCoreSchema.extend({
+  task_lists: z.array(TaskListSchema).optional(),
 });
 
-export type Project = z.infer<typeof projectSchema>;
+export type Project = z.infer<typeof ProjectSchema>;

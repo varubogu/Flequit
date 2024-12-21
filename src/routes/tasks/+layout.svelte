@@ -15,8 +15,7 @@
 <Sidebar.Provider>
   <AppSidebar />
   <main class="p-4">
-    <!-- <slot /> -->
-     {@render children?.()}
+    {@render children?.()}
   </main>
 </Sidebar.Provider>
 
