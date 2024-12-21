@@ -5,8 +5,8 @@
   import Search from "lucide-svelte/icons/search";
   import Settings from "lucide-svelte/icons/settings";
   import * as Sidebar from "$ui/sidebar/index";
-  import type { ProjectDisplay } from "$src/types/attachment/display";
-    import { UserIcon } from "lucide-svelte";
+  import type { ProjectExtendedDisplay } from "$src/types/attachment/display";
+    import { HelpCircle, UserIcon } from "lucide-svelte";
 
   // Menu items.
   const dayItems = [
@@ -27,19 +27,19 @@
     },
   ];
 
-  const projectItems: ProjectDisplay[] = [
+  const projectItems: ProjectExtendedDisplay[] = [
     {
       id: "1",
       name: "Project 1",
       icon: "🏠",
       task_lists: [
         {
-          title: "Task 1",
+          name: "Task 1",
           url: "#",
           icon: "🏠",
         },
         {
-          title: "Task 2",
+          name: "Task 2",
           url: "#",
           icon: "🏠",
         },
@@ -50,7 +50,7 @@
       name: "Project 2",
       task_lists: [
         {
-          title: "Task 1",
+          name: "Task 1",
           url: "#",
           icon: "🏠",
         },
@@ -59,6 +59,11 @@
   ];
 
   const footerItems = [
+    {
+      title: "ヘルプ",
+      url: "#",
+      icon: HelpCircle,
+    },
     {
       title: "Settings",
       url: "#",
@@ -101,24 +106,36 @@
           </Sidebar.Menu>
         </Sidebar.GroupContent>
       </Sidebar.Group>
-      <!-- <Sidebar.Group>
+      <Sidebar.Group>
         <Sidebar.GroupContent>
           <Sidebar.Menu>
-            {#each projectItems as item (item.id)}
+            {#each projectItems as item (item.name)}
               <Sidebar.MenuItem>
                 <Sidebar.MenuButton>
                   {#snippet child({ props })}
                     <a href={item.url} {...props}>
-                      <item.icon />
                       <span>{item.name}</span>
                     </a>
                   {/snippet}
                 </Sidebar.MenuButton>
+                <Sidebar.GroupContent>
+                  {#each item.task_lists as task (task.name)}
+                    <Sidebar.MenuItem>
+                      <Sidebar.MenuButton>
+                        {#snippet child({ props })}
+                          <a href={task.url} {...props}>
+                            <span>{task.name}</span>
+                          </a>
+                        {/snippet}
+                      </Sidebar.MenuButton>
+                    </Sidebar.MenuItem>
+                  {/each}
+                </Sidebar.GroupContent>
               </Sidebar.MenuItem>
             {/each}
           </Sidebar.Menu>
         </Sidebar.GroupContent>
-      </Sidebar.Group> -->
+      </Sidebar.Group>
     </Sidebar.Content>
     <Sidebar.Footer>
       <Sidebar.Group>
