@@ -120,7 +120,7 @@
                 </Sidebar.MenuButton>
                 <Sidebar.GroupContent>
                   {#each item.task_lists as task (task.name)}
-                    <Sidebar.MenuItem>
+                    <Sidebar.MenuItem style="padding-left: 20px;">
                       <Sidebar.MenuButton>
                         {#snippet child({ props })}
                           <a href={task.url} {...props}>
