@@ -6,6 +6,7 @@
   import type { Project } from "$src/types/project";
   import { AlarmMinus, ChevronDown, HelpCircle, Search, UserIcon } from "lucide-svelte";
   import { Collapsible } from "bits-ui";
+    import SearchForm from "./search-form.svelte";
 
   // Menu items.
   const dayItems = [
@@ -29,11 +30,6 @@
       url: "#",
       icon: Inbox,
     },
-    {
-      title: "検索",
-      url: "#",
-      icon: Search,
-    }
   ];
 
   const projectItems: Project[] = [
@@ -178,6 +174,8 @@
       </Sidebar.Group>
     </Sidebar.Header>
     <Sidebar.Content>
+      <!-- search -->
+      <SearchForm />
       <!-- daily -->
       <Sidebar.Group>
         <Sidebar.GroupContent>

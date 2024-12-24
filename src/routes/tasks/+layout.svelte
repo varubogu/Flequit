@@ -2,7 +2,6 @@
   import "$src/global.css";
   import { onMount } from 'svelte';
   import { theme } from '$lib/stores/theme';
-  // import Sidebar from "$components/sidebar.svelte";
   import * as Sidebar from "$ui/sidebar/index";
   import AppSidebar from "$components/app-sidebar.svelte";
 
@@ -14,9 +13,11 @@
 
 <Sidebar.Provider open={true} controlledOpen={true}>
   <AppSidebar />
-  <main class="p-4">
-    {@render children?.()}
-  </main>
+  <Sidebar.Inset>
+    <main class="p-4">
+      {@render children?.()}
+    </main>
+  </Sidebar.Inset>
 </Sidebar.Provider>
 
 <style>

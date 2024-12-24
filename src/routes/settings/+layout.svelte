@@ -1,7 +1,7 @@
 
 <script lang="ts">
     import { Sidebar } from "$ui/sidebar/index";
-    import AppSideBar from "$components/app-sidebar.svelte";
+    import AppSideBar from "$components/app-sidebar2.svelte";
 </script>
 
 <Sidebar.Provider>
