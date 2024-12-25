@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const ProjectCoreSchema = z.object({
   id: z.string().uuid().nonempty(),
-  icon: z.string().optional(),
+  icon: z.string(),
   name: z.string().nonempty(),
 });
 
