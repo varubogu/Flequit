@@ -12,6 +12,7 @@
   import TaskDetail from "$components/task-detail.svelte";
   import type { Task } from "$types/components/task";
   import type { PageData } from "./$types";
+  import AppSidebar from "$components/app-sidebar.svelte";
 
   export let data: PageData;
   let selectedTask: Task | null = null;
@@ -27,7 +28,7 @@
   // 表示するタスクリストの取得
   $: displayTasks = (() => {
     if (currentDaily) {
-      // ���付フィルターに基づくタスク
+      // �����付フィルターに基づくタスク
       const now = new Date();
       const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       const tomorrow = new Date(today);
@@ -35,7 +36,12 @@
       const nextWeek = new Date(today);
       nextWeek.setDate(nextWeek.getDate() + 7);
 
-      return data.taskList.tasks.filter((task) => {
+      // すべてのプロジェクトのタスクを結合
+      const allTasks = data.projects.flatMap((project) =>
+        project.taskLists.flatMap((list) => list.tasks),
+      );
+
+      return allTasks.filter((task) => {
         if (!task.dueDate) return false;
         const taskDate = new Date(task.dueDate.value.toString());
         const taskDay = new Date(
@@ -60,23 +66,19 @@
       });
     } else if (currentProject && currentTaskList) {
       // プロジェクトのタスクリスト
-      const project = data.projects?.find(
-        (p: Project) => p.id === currentProject,
-      );
+      const project = data.projects.find((p) => p.id === currentProject);
       const taskList = project?.taskLists?.find(
-        (t: { id: string }) => t.id === currentTaskList,
+        (t) => t.id === currentTaskList,
       );
       return taskList?.tasks ?? [];
     } else if (currentProject) {
       // プロジェクト全体のタスク
-      const project = data.projects?.find(
-        (p: Project) => p.id === currentProject,
-      );
-      return (
-        project?.taskLists?.flatMap((t: { tasks: Task[] }) => t.tasks) ?? []
-      );
+      const project = data.projects.find((p) => p.id === currentProject);
+      return project?.taskLists?.flatMap((t) => t.tasks) ?? [];
     }
-    return data.taskList.tasks;
+    // デフォルトではメインプロジェクトのタスクを表示
+    const mainProject = data.projects.find((p) => p.id === "main");
+    return mainProject?.taskLists?.[0]?.tasks ?? [];
   })();
 
   // タスクの選択状態の管理
@@ -89,13 +91,6 @@
 
   onMount(() => {
     mounted = true;
-    if (displayTasks.length > 0 && !currentTaskId) {
-      // タスクが未選択の場合、最初のタスクを選択
-      const firstTask = displayTasks[0];
-      const searchParams = new URLSearchParams($page.url.searchParams);
-      searchParams.set("task", firstTask.id);
-      goto(`?${searchParams.toString()}`, { replaceState: true });
-    }
   });
 
   // タスク選択時の処理
@@ -109,11 +104,17 @@
 
   // タスク更新時の処理
   function updateTask(updatedTask: Task) {
-    const index = data.taskList.tasks.findIndex((t) => t.id === updatedTask.id);
-    if (index !== -1) {
-      data.taskList.tasks[index] = updatedTask;
-      if (selectedTask?.id === updatedTask.id) {
-        selectedTask = updatedTask;
+    // すべてのプロジェクトとタスクリストを検索
+    for (const project of data.projects) {
+      for (const taskList of project.taskLists) {
+        const index = taskList.tasks.findIndex((t) => t.id === updatedTask.id);
+        if (index !== -1) {
+          taskList.tasks[index] = updatedTask;
+          if (selectedTask?.id === updatedTask.id) {
+            selectedTask = updatedTask;
+          }
+          return;
+        }
       }
     }
   }
@@ -127,7 +128,7 @@
   }
 </script>
 
-<Sidebar.Trigger class="-ml-1" />
+<AppSidebar projects={data.projects} />
 
 {#if mounted}
   <div class="h-screen flex">
