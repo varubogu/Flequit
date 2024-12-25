@@ -18,12 +18,14 @@
     type DateTime,
   } from "$src/types/primitive-extensions/date-time";
   import type { DateValue } from "@internationalized/date";
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher<{
+    update: { task: Task };
+  }>();
 
   export let task: Task | null = null;
-  let dueDate: DateTime | null = null;
-  let dueDate_Date: Date | null = null;
   $: dueDate = task?.dueDate ?? null;
-  $: dueDate_Date = dueDate ? toJsDate(dueDate) : null;
+  $: dueDate_Date = task && task.dueDate ? toJsDate(task.dueDate) : null;
 </script>
 
 <ScrollArea class="h-full">
@@ -52,8 +54,9 @@
                 weekStartsOn={0}
                 value={dueDate?.value}
                 onValueChange={(date) => {
-                  if (date) {
-                    dueDate = toDateTime(date);
+                  if (date && task) {
+                    task = { ...task, dueDate: toDateTime(date) };
+                    dispatch("update", { task });
                   }
                 }}
               />

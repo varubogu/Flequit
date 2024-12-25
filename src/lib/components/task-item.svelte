@@ -20,13 +20,12 @@
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher<{
     select: { task: Task };
+    update: { task: Task };
   }>();
 
   export let task: Task;
-  let dueDate: DateTime | null = null;
-  let dueDate_Date: Date | null = null;
   $: dueDate = task?.dueDate ?? null;
-  $: dueDate_Date = dueDate ? toJsDate(dueDate) : null;
+  $: dueDate_Date = task && task.dueDate ? toJsDate(task.dueDate) : null;
 </script>
 
 <Card class="p-4">
@@ -66,9 +65,11 @@
               value={dueDate ? toDateValue(dueDate) : undefined}
               onValueChange={(date) => {
                 if (date) {
-                  task.dueDate = toDateTime(date);
+                  task = { ...task, dueDate: toDateTime(date) };
+                  dispatch("update", { task });
                 } else {
-                  task.dueDate = null;
+                  task = { ...task, dueDate: null };
+                  dispatch("update", { task });
                 }
               }}
             />
