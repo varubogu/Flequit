@@ -1,7 +1,8 @@
 import { z } from "zod";
 import { TagCoreSchema } from "./tag";
-import { ImportanceSchema } from "../enum/importance";
-import { PrioritySchema } from "../enum/priority";
+import { ImportanceSchema } from "$types/enum/importance";
+import { PrioritySchema } from "$types/enum/priority";
+import { DateTimeSchema } from "$types/primitive-extensions/date-time";
 
 export const TaskCoreSchema = z.object({
   id: z.string().uuid().nonempty(),
@@ -10,8 +11,8 @@ export const TaskCoreSchema = z.object({
   description: z.string(),
   importance: ImportanceSchema,
   priority: PrioritySchema,
-  dueDate: z.string().datetime(),
-  completeDate: z.string().datetime(),
+  dueDate: DateTimeSchema.nullable(),
+  completeDate: DateTimeSchema.nullable(),
   completed: z.boolean(),
   cycle: z.string(),
   tags: z.array(TagCoreSchema).optional(),

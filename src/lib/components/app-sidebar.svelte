@@ -3,10 +3,11 @@
   import Inbox from "lucide-svelte/icons/inbox";
   import Settings from "lucide-svelte/icons/settings";
   import * as Sidebar from "$ui/sidebar/index";
-  import type { Project } from "$src/types/project";
+  import type { Project } from "$src/types/components/project";
   import { AlarmMinus, ChevronDown, HelpCircle, Search, UserIcon } from "lucide-svelte";
   import { Collapsible } from "bits-ui";
     import SearchForm from "./search-form.svelte";
+    import { toDateTime } from "$src/types/primitive-extensions/date-time";
 
   // Menu items.
   const dayItems = [
@@ -53,8 +54,8 @@
               description: "Task 1 description",
               importance: 1,
               priority: 1,
-              dueDate: "2024-01-01",
-              completeDate: "2024-01-01",
+              dueDate: toDateTime("2024-01-01"),
+              completeDate: toDateTime("2024-01-01"),
               completed: false,
               cycle: "daily",
               subTasks: [
@@ -66,12 +67,38 @@
                   description: "Sub Task 1 description",
                   importance: 1,
                   priority: 1,
-                  dueDate: "2024-01-01",
-                  completeDate: "2024-01-01",
+                  dueDate: toDateTime("2024-01-01"),
+                  completeDate: toDateTime("2024-01-01"),
                   completed: false,
                   cycle: "daily",
                 }
               ]
+            },
+            {
+              id: "2",
+              name: "Task 2",
+              url: "#",
+              icon: "🏠",
+              description: "Task 2 description",
+              importance: 1,
+              priority: 1,
+              dueDate: null,
+              completeDate: null,
+              completed: false,
+              cycle: "daily",
+            },
+            {
+              id: "3",
+              name: "Task 3",
+              url: "#",
+              icon: "🏠",
+              description: "Task 3 description",
+              importance: 1,
+              priority: 1,
+              dueDate: toDateTime("2024-01-01 12:00:00"),
+              completeDate: null,
+              completed: false,
+              cycle: "daily",
             }
           ]
         },
@@ -89,8 +116,8 @@
               description: "Task 2 description",
               importance: 1,
               priority: 1,
-              dueDate: "2024-01-01",
-              completeDate: "2024-01-01",
+              dueDate: toDateTime("2024-01-01"),
+              completeDate: toDateTime("2024-01-01"),
               completed: false,
               cycle: "daily",
               subTasks: []
@@ -119,8 +146,8 @@
               description: "Task 1 description",
               importance: 1,
               priority: 1,
-              dueDate: "2024-01-01",
-              completeDate: "2024-01-01",
+              dueDate: toDateTime("2024-01-01"),
+              completeDate: toDateTime("2024-01-01"),
               completed: false,
               cycle: "daily",
               subTasks: [
@@ -132,8 +159,8 @@
                   description: "Sub Task 1 description",
                   importance: 1,
                   priority: 1,
-                  dueDate: "2024-01-01",
-                  completeDate: "2024-01-01",
+                  dueDate: toDateTime("2024-01-01"),
+                  completeDate: toDateTime("2024-01-01"),
                   completed: false,
                   cycle: "daily",
                 }

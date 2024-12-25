@@ -7,64 +7,60 @@
   import { cn } from "$lib/utils";
   import type { Task } from "$types/components/task";
   import TaskCalendar from "./task-calendar.svelte";
+  import {
+    formatDateTimeHtml,
+    getDueDateClass,
+  } from "$src/lib/utils/datetimeFormat";
+  import {
+    toDateTime,
+    toJsDate,
+    toDateValue,
+    type DateTime,
+  } from "$src/types/primitive-extensions/date-time";
 
   export let task: Task;
-  let contentRef: HTMLElement | null = null;
-  let dueDate: Date | null = null;
-  $: dueDate = task.dueDate ? new Date(task.dueDate) : null;
-
-  function formatDate(date: Date): string {
-    return new Date(date).toLocaleString('ja-JP', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  }
-  function formatTime(date: Date): string {
-    return new Date(date).toLocaleString('ja-JP', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  }
+  let dueDate: DateTime | null = null;
+  let dueDate_Date: Date | null = null;
+  $: dueDate = task?.dueDate ?? null;
+  $: dueDate_Date = dueDate ? toJsDate(dueDate) : null;
 </script>
 
 <Card class="p-4 cursor-pointer hover:bg-muted/50">
   <div class="flex items-center justify-between">
     <div class="flex items-center gap-4">
-      <Checkbox
-        checked={task.completed}
-        on:click={(e) => e.stopPropagation()}
-      />
+      <Checkbox checked={task.completed} />
       <span class="text-sm font-medium">{task.name}</span>
     </div>
     <Popover>
       <PopoverTrigger
-        class={cn(buttonVariants({
-          variant: "outline",
-          class: "w-[180px] justify-start text-left font-normal"
-        }),
-        !task.dueDate && "text-muted-foreground"
+        class={cn(
+          buttonVariants({
+            variant: "outline",
+            class: "p-3 justify-start text-right font-normal",
+          }),
+          !task.dueDate && "text-muted-foreground",
         )}
       >
-        <span
-          class="text-sm"
-          class:text-red-500={dueDate < new Date()}
-          class:text-blue-500={dueDate > new Date()}
-        >
-          {formatDate(dueDate)}
+        <span class="text-sm {getDueDateClass(dueDate)}">
+          {@html formatDateTimeHtml(dueDate)}
         </span>
         <script>
           console.log(task.dueDate);
         </script>
       </PopoverTrigger>
-      <PopoverContent
-        align="end"
-        sideOffset={5}
-        class="w-[280px] p-0"
-      >
-        <TaskCalendar bind:task={task} />
+      <PopoverContent align="end" sideOffset={5} class="w-[280px] p-0">
+        <Calendar
+          type="single"
+          weekStartsOn={0}
+          value={dueDate ? toDateValue(dueDate) : undefined}
+          onValueChange={(date) => {
+            if (date) {
+              task.dueDate = toDateTime(date);
+            } else {
+              task.dueDate = null;
+            }
+          }}
+        />
       </PopoverContent>
     </Popover>
   </div>

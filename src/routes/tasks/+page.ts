@@ -1,5 +1,8 @@
-import type { Task } from "$types/task";
+import type { Task } from "$types/components/task";
 import type { PageLoad } from "./$types";
+import { toDateTime } from "$types/primitive-extensions/date-time";
+import { Importance } from "$types/enum/importance";
+import { Priority } from "$types/enum/priority";
 
 // 初期データ
 const initialData = {
@@ -11,12 +14,13 @@ const initialData = {
     tasks: [
       {
         id: "task-1",
+        icon: "📝",
         name: "タスク1",
         description: "昨日までに完了すべきタスク",
-        importance: 3,
-        priority: 5,
-        dueDate: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), // 昨日
-        completeDate: new Date().toISOString(),
+        importance: Importance.High,
+        priority: Priority.High,
+        dueDate: toDateTime(new Date(Date.now() - 24 * 60 * 60 * 1000)),
+        completeDate: toDateTime(new Date()),
         completed: false,
         cycle: "once",
         tags: [
@@ -27,12 +31,13 @@ const initialData = {
       },
       {
         id: "task-2",
+        icon: "📝",
         name: "タスク2",
         description: "明日までのタスク",
-        importance: 2,
-        priority: 3,
-        dueDate: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 明日
-        completeDate: new Date().toISOString(),
+        importance: Importance.Medium,
+        priority: Priority.Medium,
+        dueDate: toDateTime(new Date(Date.now() + 24 * 60 * 60 * 1000)),
+        completeDate: toDateTime(new Date()),
         completed: false,
         cycle: "once",
         tags: [

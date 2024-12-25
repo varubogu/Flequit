@@ -25,49 +25,53 @@
 <Sidebar.Trigger class="-ml-1" />
 
 {#if mounted}
-<div class="h-screen flex">
-  <!-- タスクリスト -->
-  <div class="flex-1 bg-muted/30">
-    <ScrollArea class="h-full">
-      {#if data?.taskList?.tasks}
-        {#each data.taskList.tasks as task}
-          <TaskItem {task} />
-        {/each}
-      {/if}
-    </ScrollArea>
+  <div class="h-screen flex">
+    <!-- タスクリスト -->
+    <div class="flex-1 bg-muted/30">
+      <ScrollArea class="h-full">
+        {#if data?.taskList?.tasks}
+          {#each data.taskList.tasks as task}
+            <TaskItem {task} />
+          {/each}
+        {/if}
+      </ScrollArea>
 
-    <Button
-      class="fixed lg:absolute bottom-4 right-4 rounded-full"
-      size="icon"
-    >
-      <Plus class="h-4 w-4" />
-    </Button>
-  </div>
-
-  <!-- タスク詳細 - PC -->
-  <div class="hidden lg:block w-72 border-l">
-    <TaskDetail task={selectedTask} />
-  </div>
-
-  <!-- タスク詳細 - モバイル -->
-  {#if isDetailOpen}
-    <div
-      class="lg:hidden fixed inset-0 bg-background"
-      transition:fly={{ x: 300, duration: 200 }}
-    >
       <Button
-        variant="ghost"
+        class="fixed lg:absolute bottom-4 right-4 rounded-full"
         size="icon"
-        class="absolute top-4 left-4"
-        on:click={() => (isDetailOpen = false)}
       >
-        <ChevronLeft class="h-4 w-4" />
+        <Plus class="h-4 w-4" />
       </Button>
-
-      <div class="pt-16">
-        <TaskDetail task={selectedTask} />
-      </div>
     </div>
-  {/if}
-</div>
+
+    <!-- タスク詳細 - PC -->
+    <div class="hidden lg:block w-72 border-l">
+      {#if selectedTask}
+        <TaskDetail task={selectedTask} />
+      {/if}
+    </div>
+
+    <!-- タスク詳細 - モバイル -->
+    {#if isDetailOpen}
+      <div
+        class="lg:hidden fixed inset-0 bg-background"
+        transition:fly={{ x: 300, duration: 200 }}
+      >
+        <Button
+          variant="ghost"
+          size="icon"
+          class="absolute top-4 left-4"
+          on:click={() => (isDetailOpen = false)}
+        >
+          <ChevronLeft class="h-4 w-4" />
+        </Button>
+
+        <div class="pt-16">
+          {#if selectedTask}
+            <TaskDetail task={selectedTask} />
+          {/if}
+        </div>
+      </div>
+    {/if}
+  </div>
 {/if}

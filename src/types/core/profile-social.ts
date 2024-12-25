@@ -1,9 +1,10 @@
 import { z } from "zod";
+import { SocialSchema } from "$src/types/enum/social";
 
 export const ProfileSocialCoreSchema = z.object({
   id: z.string().uuid().nonempty(),
   url: z.string().url(),
-  urlType: z.enum(["X", "Twitter", "Instagram", "Facebook", "Linkedin", "Youtube", "Tiktok", "Twitch", "GitHub", "Discord", "Telegram", "Whatsapp", "Line", "Spotify", "Patreon"]),
+  urlType: SocialSchema,
 });
 
 export type ProfileSocialCore = z.infer<typeof ProfileSocialCoreSchema>;

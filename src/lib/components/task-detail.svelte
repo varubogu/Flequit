@@ -1,12 +1,29 @@
 <script lang="ts">
   import { ScrollArea } from "$ui/scroll-area";
-  import { Calendar } from "$ui/calendar";
-  import { Popover, PopoverContent, PopoverTrigger } from "$ui/popover";
-  import type { Task } from "$types/task";
+  import { Calendar } from "$lib/components/ui/calendar";
+  import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+  } from "$lib/components/ui/popover";
+  import type { Task } from "$types/components/task";
   import * as m from "$paraglide/messages";
-  import { formatDate } from '$lib/utils/dateUtils';
+  import {
+    formatDateTimeHtml,
+    getDueDateClass,
+  } from "$src/lib/utils/datetimeFormat";
+  import {
+    toDateTime,
+    toJsDate,
+    type DateTime,
+  } from "$src/types/primitive-extensions/date-time";
+  import type { DateValue } from "@internationalized/date";
 
   export let task: Task | null = null;
+  let dueDate: DateTime | null = null;
+  let dueDate_Date: Date | null = null;
+  $: dueDate = task?.dueDate ?? null;
+  $: dueDate_Date = dueDate ? toJsDate(dueDate) : null;
 </script>
 
 <ScrollArea class="h-full">
@@ -20,21 +37,25 @@
           <Popover>
             <PopoverTrigger>
               <div class="cursor-pointer px-1">
-                <p class="text-sm hover:text-muted-foreground">
-                  {formatDate(task.dueDate)}
+                <p
+                  class="text-sm hover:text-muted-foreground {getDueDateClass(
+                    dueDate,
+                  )}"
+                >
+                  {@html formatDateTimeHtml(dueDate)}
                 </p>
               </div>
             </PopoverTrigger>
-            <PopoverContent
-              align="start"
-              sideOffset={5}
-              class="w-[280px] p-0"
-            >
+            <PopoverContent align="start" sideOffset={5} class="w-[280px] p-0">
               <Calendar
+                type="single"
                 weekStartsOn={0}
-                selected={new Date(task.dueDate)}
-                mode="single"
-                onSelect={(date) => date && (task.dueDate = date.toISOString())}
+                value={dueDate?.value}
+                onValueChange={(date) => {
+                  if (date) {
+                    dueDate = toDateTime(date);
+                  }
+                }}
               />
             </PopoverContent>
           </Popover>
@@ -44,7 +65,9 @@
             <h3 class="text-sm font-medium mb-2">タグ</h3>
             <div class="flex flex-wrap gap-2">
               {#each task.tags as tag}
-                <span class="text-xs bg-muted px-2 py-1 rounded">{tag.name}</span>
+                <span class="text-xs bg-muted px-2 py-1 rounded"
+                  >{tag.name}</span
+                >
               {/each}
             </div>
           </div>
