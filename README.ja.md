@@ -191,6 +191,12 @@ apt install FlexibleToDo.FlexibleToDo
 - ポモドーロタイマーもつけたい
 - 将来的にはカレンダーの予定管理も含めて統合的な提供ができればいいなぁ
 
+## ロードマップ
+
+下記を参照
+
+- [ロードマップ](./docs/loadmap.md)
+
 ## 余談
 
 Flequitという名称は、柔軟性（<span style="color: red">Fle</span>xible）、高速性（<span style="color: red">Qui</span>ck）、を兼ね備えたタスク管理アプリ（<span style="color: red">To</span>do）で早く仕事を終わらせる（<span style="color: red">Quit</span>）の略称を用いた造語です。
