@@ -3,6 +3,7 @@ import type { PageLoad } from "./$types";
 import { toDateTime } from "$types/primitive-extensions/date-time";
 import { Importance } from "$types/enum/importance";
 import { Priority } from "$types/enum/priority";
+import type { Project } from "$types/components/project";
 
 // 初期データ
 const initialData = {
@@ -10,7 +11,6 @@ const initialData = {
     id: "1",
     name: "メインタスクリスト",
     icon: "📝",
-    url: "/tasks",
     tasks: [
       {
         id: "task-1",
@@ -26,8 +26,7 @@ const initialData = {
         tags: [
           { id: "tag-1", name: "重要" },
           { id: "tag-2", name: "期限切れ" }
-        ],
-        url: "/tasks/task-1"
+        ]
       },
       {
         id: "task-2",
@@ -42,16 +41,47 @@ const initialData = {
         cycle: "once",
         tags: [
           { id: "tag-3", name: "通常" }
-        ],
-        url: "/tasks/task-2"
+        ]
       }
     ]
-  }
+  },
+  projects: [
+    {
+      id: "1",
+      name: "Project 1",
+      icon: "🏠",
+      taskLists: [
+        {
+          id: "1",
+          name: "Task List 1",
+          icon: "🏠",
+          tasks: []
+        },
+        {
+          id: "2",
+          name: "Task List 2",
+          icon: "🏠",
+          tasks: []
+        }
+      ]
+    },
+    {
+      id: "2",
+      name: "Project 2",
+      icon: "🏢",
+      taskLists: [
+        {
+          id: "3",
+          name: "Task List 3",
+          icon: "📝",
+          tasks: []
+        }
+      ]
+    }
+  ]
 };
 
 export const load = (async () => {
   // 将来的にはここでAPIからデータを取得する
-  return {
-    taskList: initialData.taskList
-  };
+  return initialData;
 }) satisfies PageLoad;

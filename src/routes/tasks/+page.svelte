@@ -18,36 +18,112 @@
   let isDetailOpen = false;
   let mounted = false;
 
-  // URLのタスクIDパラメータを監視
+  // URLパラメータの監視
+  $: currentDaily = $page.url.searchParams.get("daily");
+  $: currentProject = $page.url.searchParams.get("project");
+  $: currentTaskList = $page.url.searchParams.get("tasks");
+  $: currentTaskId = $page.url.searchParams.get("task");
+
+  // 表示するタスクリストの取得
+  $: displayTasks = (() => {
+    if (currentDaily) {
+      // ���付フィルターに基づくタスク
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const nextWeek = new Date(today);
+      nextWeek.setDate(nextWeek.getDate() + 7);
+
+      return data.taskList.tasks.filter((task) => {
+        if (!task.dueDate) return false;
+        const taskDate = new Date(task.dueDate.value.toString());
+        const taskDay = new Date(
+          taskDate.getFullYear(),
+          taskDate.getMonth(),
+          taskDate.getDate(),
+        );
+
+        switch (currentDaily) {
+          case "today":
+            return taskDay.getTime() === today.getTime();
+          case "tomorrow":
+            return taskDay.getTime() === tomorrow.getTime();
+          case "week":
+            return taskDay >= today && taskDay < nextWeek;
+          case "inbox":
+            // 期限が設定されていないタスク
+            return !task.dueDate;
+          default:
+            return false;
+        }
+      });
+    } else if (currentProject && currentTaskList) {
+      // プロジェクトのタスクリスト
+      const project = data.projects?.find(
+        (p: Project) => p.id === currentProject,
+      );
+      const taskList = project?.taskLists?.find(
+        (t: { id: string }) => t.id === currentTaskList,
+      );
+      return taskList?.tasks ?? [];
+    } else if (currentProject) {
+      // プロジェクト全体のタスク
+      const project = data.projects?.find(
+        (p: Project) => p.id === currentProject,
+      );
+      return (
+        project?.taskLists?.flatMap((t: { tasks: Task[] }) => t.tasks) ?? []
+      );
+    }
+    return data.taskList.tasks;
+  })();
+
+  // タスクの選択状態の管理
   $: {
-    const taskId = $page.url.searchParams.get("taskId");
-    if (taskId && data?.taskList?.tasks) {
-      const task = data.taskList.tasks.find((t) => t.id === taskId);
-      if (task) {
-        selectedTask = task;
-        isDetailOpen = true;
-      }
+    if (currentTaskId) {
+      selectedTask = displayTasks.find((t) => t.id === currentTaskId);
+      isDetailOpen = !!selectedTask;
     }
   }
 
   onMount(() => {
     mounted = true;
-    if (data?.taskList?.tasks?.length > 0) {
-      // URLにタスクIDがない場合のみ、最初のタスクを選択
-      if (!$page.url.searchParams.get("taskId")) {
-        const firstTask = data.taskList.tasks[0];
-        selectedTask = firstTask;
-        // URLを更新（履歴に追加）
-        goto(`?taskId=${firstTask.id}`, { replaceState: true });
-      }
+    if (displayTasks.length > 0 && !currentTaskId) {
+      // タスクが未選択の場合、最初のタスクを選択
+      const firstTask = displayTasks[0];
+      const searchParams = new URLSearchParams($page.url.searchParams);
+      searchParams.set("task", firstTask.id);
+      goto(`?${searchParams.toString()}`, { replaceState: true });
     }
   });
 
+  // タスク選択時の処理
   function selectTask(task: Task) {
     selectedTask = task;
     isDetailOpen = true;
-    // URLを更新（履歴に追加）
-    goto(`?taskId=${task.id}`);
+    const searchParams = new URLSearchParams($page.url.searchParams);
+    searchParams.set("task", task.id);
+    goto(`?${searchParams.toString()}`);
+  }
+
+  // タスク更新時の処理
+  function updateTask(updatedTask: Task) {
+    const index = data.taskList.tasks.findIndex((t) => t.id === updatedTask.id);
+    if (index !== -1) {
+      data.taskList.tasks[index] = updatedTask;
+      if (selectedTask?.id === updatedTask.id) {
+        selectedTask = updatedTask;
+      }
+    }
+  }
+
+  // モバイルでの詳細画面を閉じる処理
+  function closeDetail() {
+    isDetailOpen = false;
+    const searchParams = new URLSearchParams($page.url.searchParams);
+    searchParams.delete("task");
+    goto(`?${searchParams.toString()}`);
   }
 </script>
 
@@ -58,22 +134,12 @@
     <!-- タスクリスト -->
     <div class="flex-1 bg-muted/30">
       <ScrollArea class="h-full">
-        {#if data?.taskList?.tasks}
-          {#each data.taskList.tasks as task}
+        {#if displayTasks}
+          {#each displayTasks as task}
             <TaskItem
               {task}
               on:select={({ detail }) => selectTask(detail.task)}
-              on:update={({ detail }) => {
-                const index = data.taskList.tasks.findIndex(
-                  (t) => t.id === detail.task.id,
-                );
-                if (index !== -1) {
-                  data.taskList.tasks[index] = detail.task;
-                  if (selectedTask?.id === detail.task.id) {
-                    selectedTask = detail.task;
-                  }
-                }
-              }}
+              on:update={({ detail }) => updateTask(detail.task)}
             />
           {/each}
         {/if}
@@ -92,15 +158,7 @@
       {#if selectedTask}
         <TaskDetail
           task={selectedTask}
-          on:update={({ detail }) => {
-            const index = data.taskList.tasks.findIndex(
-              (t) => t.id === detail.task.id,
-            );
-            if (index !== -1) {
-              data.taskList.tasks[index] = detail.task;
-              selectedTask = detail.task;
-            }
-          }}
+          on:update={({ detail }) => updateTask(detail.task)}
         />
       {/if}
     </div>
@@ -115,11 +173,7 @@
           variant="ghost"
           size="icon"
           class="absolute top-4 left-4"
-          on:click={() => {
-            isDetailOpen = false;
-            // URLからタスクIDを削除（履歴に追加）
-            goto("?");
-          }}
+          on:click={closeDetail}
         >
           <ChevronLeft class="h-4 w-4" />
         </Button>
@@ -128,15 +182,7 @@
           {#if selectedTask}
             <TaskDetail
               task={selectedTask}
-              on:update={({ detail }) => {
-                const index = data.taskList.tasks.findIndex(
-                  (t) => t.id === detail.task.id,
-                );
-                if (index !== -1) {
-                  data.taskList.tasks[index] = detail.task;
-                  selectedTask = detail.task;
-                }
-              }}
+              on:update={({ detail }) => updateTask(detail.task)}
             />
           {/if}
         </div>
