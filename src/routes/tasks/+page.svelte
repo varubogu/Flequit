@@ -31,7 +31,14 @@
       <ScrollArea class="h-full">
         {#if data?.taskList?.tasks}
           {#each data.taskList.tasks as task}
-            <TaskItem {task} />
+            <TaskItem
+              {task}
+              on:select={({ detail }) => {
+                console.log("Task selected:", detail);
+                selectedTask = detail.task;
+                isDetailOpen = true;
+              }}
+            />
           {/each}
         {/if}
       </ScrollArea>
