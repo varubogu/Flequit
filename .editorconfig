@@ -1,0 +1,4 @@
+
+[*.html, *.css, *.js, *.ts, *.svelte, *.json]
+indent_style = space
+indent_size = 2
