@@ -2,6 +2,8 @@
   import { page } from "$app/stores";
   import { Button } from "$ui/button";
   import * as Sidebar from "$ui/sidebar/index";
+  import * as Tooltip from "$ui/tooltip";
+  import * as Collapsible from "$components/ui/collapsible";
   import {
     CalendarDays,
     Inbox,
@@ -14,7 +16,6 @@
     ChevronDown,
   } from "lucide-svelte";
   import type { Project } from "$types/components/project";
-  import { Collapsible } from "bits-ui";
   import SearchForm from "./search-form.svelte";
 
   export let projects: Project[];
@@ -23,6 +24,44 @@
   $: currentDaily = $page.url.searchParams.get("daily");
   $: currentProject = $page.url.searchParams.get("project");
   $: currentTaskList = $page.url.searchParams.get("tasks");
+
+  // フビゲーション関数
+  function updateSearchParams(updates: { [key: string]: string | null }) {
+    const url = new URL(window.location.href);
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value === null) {
+        url.searchParams.delete(key);
+      } else {
+        url.searchParams.set(key, value);
+      }
+    });
+    history.pushState({}, "", url);
+  }
+
+  // フビゲーション関数
+  function handleDailyClick(param: string) {
+    console.log("Daily clicked:", param);
+    const searchParams = new URLSearchParams($page.url.searchParams);
+    searchParams.set("daily", param);
+    searchParams.delete("project");
+    searchParams.delete("tasks");
+    console.log("Daily URL params:", searchParams.toString());
+    goto(`?${searchParams.toString()}`);
+  }
+
+  function handleProjectClick(projectId: string, taskListId?: string) {
+    console.log("Project clicked:", { projectId, taskListId });
+    const searchParams = new URLSearchParams($page.url.searchParams);
+    searchParams.delete("daily");
+    searchParams.set("project", projectId);
+    if (taskListId) {
+      searchParams.set("tasks", taskListId);
+    } else {
+      searchParams.delete("tasks");
+    }
+    console.log("Project URL params:", searchParams.toString());
+    goto(`?${searchParams.toString()}`);
+  }
 
   // フッターアイテム
   const footerItems = [
@@ -42,113 +81,145 @@
       icon: UserIcon,
     },
   ];
+
+  // デイリータスク��イテム
+  const dailyItems = [
+    {
+      title: "今日",
+      param: "today",
+      icon: CalendarDays,
+    },
+    {
+      title: "明日",
+      param: "tomorrow",
+      icon: CalendarDays,
+    },
+    {
+      title: "今週",
+      param: "week",
+      icon: CalendarDays,
+    },
+    {
+      title: "受信",
+      param: "inbox",
+      icon: Inbox,
+    },
+  ];
 </script>
 
 <Sidebar.Root>
   <Sidebar.Header>
     <SearchForm />
+    <!-- デイリータスク -->
+    <nav class="grid gap-1 px-2">
+      {#each dailyItems as item}
+        <Button
+          variant={currentDaily === item.param ? "secondary" : "ghost"}
+          class="w-full justify-start"
+          onclick={() => {
+            updateSearchParams({
+              daily: item.param,
+              project: null,
+              tasks: null,
+            });
+          }}
+        >
+          <svelte:component this={item.icon} class="mr-2 h-4 w-4" />
+          {item.title}
+        </Button>
+      {/each}
+    </nav>
   </Sidebar.Header>
   <Sidebar.Content>
     <div class="space-y-4 py-4">
-      <!-- デイリータスク -->
-      <div class="px-3 py-2">
-        <div class="space-y-1">
-          <Button
-            variant={currentDaily === "today" ? "secondary" : "ghost"}
-            class="w-full justify-start"
-            href="?daily=today"
-          >
-            <CalendarDays class="mr-2 h-4 w-4" />
-            今日
-          </Button>
-          <Button
-            variant={currentDaily === "tomorrow" ? "secondary" : "ghost"}
-            class="w-full justify-start"
-            href="?daily=tomorrow"
-          >
-            <CalendarDays class="mr-2 h-4 w-4" />
-            明日
-          </Button>
-          <Button
-            variant={currentDaily === "week" ? "secondary" : "ghost"}
-            class="w-full justify-start"
-            href="?daily=week"
-          >
-            <CalendarDays class="mr-2 h-4 w-4" />
-            今週
-          </Button>
-          <Button
-            variant={currentDaily === "inbox" ? "secondary" : "ghost"}
-            class="w-full justify-start"
-            href="?daily=inbox"
-          >
-            <Inbox class="mr-2 h-4 w-4" />
-            受信トレイ
-          </Button>
-        </div>
-      </div>
-
       <!-- プロジェクト -->
-      <div class="px-3 py-2">
-        <div class="flex items-center justify-between px-4">
+      <div class="px-2">
+        <div class="flex items-center justify-between mb-2">
           <h2 class="text-lg font-semibold tracking-tight">プロジェクト</h2>
-          <Button variant="ghost" size="icon" class="-mr-2">
-            <Plus class="h-4 w-4" />
-          </Button>
+          <div>
+            <Tooltip.Root>
+              <Tooltip.Trigger>
+                <Button variant="ghost" size="icon" class="-mr-2">
+                  <Plus class="h-4 w-4" />
+                  <span class="sr-only">新規プロジェクト</span>
+                </Button>
+              </Tooltip.Trigger>
+              <Tooltip.Content>新規プロジェクト</Tooltip.Content>
+            </Tooltip.Root>
+          </div>
         </div>
-        <div class="space-y-1">
+        <nav class="grid gap-1">
           {#each projects as project}
-            <div class="space-y-1">
-              <Button
-                variant={currentProject === project.id && !currentTaskList
-                  ? "secondary"
-                  : "ghost"}
-                class="w-full justify-start group"
-                href="?project={project.id}"
-              >
-                <span class="mr-2">{project.icon}</span>
-                {project.name}
-                <ChevronDown
-                  class="ml-auto h-4 w-4 transition-transform {currentProject ===
-                  project.id
-                    ? 'rotate-180'
-                    : ''}"
-                />
-              </Button>
-              {#if currentProject === project.id}
-                <div class="ml-4 space-y-1">
+            <Collapsible.Root
+              class="space-y-1"
+              open={currentProject === project.id}
+            >
+              <Collapsible.Trigger class="w-full">
+                <Button
+                  variant={currentProject === project.id && !currentTaskList
+                    ? "secondary"
+                    : "ghost"}
+                  class="w-full justify-start"
+                  onclick={() => {
+                    updateSearchParams({
+                      daily: null,
+                      project: project.id,
+                      tasks: null,
+                    });
+                  }}
+                >
+                  <span class="mr-2">{project.icon}</span>
+                  {project.name}
+                  <ChevronDown class="ml-auto h-4 w-4 transition-transform" />
+                </Button>
+              </Collapsible.Trigger>
+              <Collapsible.Content>
+                <div class="ml-4 space-y-1 pt-1">
                   {#each project.taskLists as taskList}
                     <Button
                       variant={currentTaskList === taskList.id
                         ? "secondary"
                         : "ghost"}
                       class="w-full justify-start"
-                      href="?project={project.id}&tasks={taskList.id}"
+                      onclick={() => {
+                        updateSearchParams({
+                          daily: null,
+                          project: project.id,
+                          tasks: taskList.id,
+                        });
+                      }}
                     >
                       <span class="mr-2">{taskList.icon}</span>
                       {taskList.name}
                     </Button>
                   {/each}
-                  <Button variant="ghost" class="w-full justify-start">
-                    <Plus class="mr-2 h-4 w-4" />
-                    新規リスト
-                  </Button>
+                  <div>
+                    <Tooltip.Root>
+                      <Tooltip.Trigger>
+                        <Button variant="ghost" class="w-full justify-start">
+                          <Plus class="mr-2 h-4 w-4" />
+                          新規リスト
+                        </Button>
+                      </Tooltip.Trigger>
+                      <Tooltip.Content>新規タスクリスト</Tooltip.Content>
+                    </Tooltip.Root>
+                  </div>
                 </div>
-              {/if}
-            </div>
+              </Collapsible.Content>
+            </Collapsible.Root>
           {/each}
-        </div>
+        </nav>
       </div>
     </div>
   </Sidebar.Content>
   <Sidebar.Footer>
-    <div class="space-y-1">
+    <nav class="grid gap-1 px-2">
       {#each footerItems as item}
         <Button variant="ghost" class="w-full justify-start" href={item.url}>
-          <item.icon class="mr-2 h-4 w-4" />
+          <svelte:component this={item.icon} class="mr-2 h-4 w-4" />
           {item.title}
         </Button>
       {/each}
-    </div>
+    </nav>
   </Sidebar.Footer>
 </Sidebar.Root>
