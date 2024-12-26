@@ -23,15 +23,23 @@
     if (!projects) return [];
 
     const params = getCurrentParams();
+    console.log('Current params:', params);
+    console.log('Projects:', projects);
+
     if (params.daily) {
       // すべてのプロジェクトのタスクを結合
       const allTasks = projects.flatMap((project) =>
         project.taskLists.flatMap((list) => list.tasks)
       );
-      return filterTasksByDate(allTasks, params.daily);
+      console.log('All tasks for daily view:', allTasks);
+      const filteredTasks = filterTasksByDate(allTasks, params.daily);
+      console.log('Filtered tasks:', filteredTasks);
+      return filteredTasks;
     }
 
-    return getTasksFromProjects(projects, params.project, params.taskList);
+    const projectTasks = getTasksFromProjects(projects, params.project, params.taskList);
+    console.log('Project tasks:', projectTasks);
+    return projectTasks;
   });
 
   // タスクリストが更新されたら選択状態も更新

@@ -25,7 +25,6 @@
   $: {
     console.log(
       "サイドメニュー: プロジェクトストアが更新されました:",
-      JSON.stringify(projects, null, 2),
     );
   }
 
@@ -36,15 +35,15 @@
 
   // フビゲーション関数
   function updateSearchParams(updates: { [key: string]: string | null }) {
-    const url = new URL(window.location.href);
+    const searchParams = new URLSearchParams($page.url.searchParams);
     Object.entries(updates).forEach(([key, value]) => {
       if (value === null) {
-        url.searchParams.delete(key);
+        searchParams.delete(key);
       } else {
-        url.searchParams.set(key, value);
+        searchParams.set(key, value);
       }
     });
-    history.pushState({}, "", url);
+    goto(`?${searchParams.toString()}`);
   }
 
   // フビゲーション関数
@@ -91,7 +90,7 @@
     },
   ];
 
-  // デイリータスクアイテム
+  // デイリータスク��イテム
   const dailyItems = [
     {
       title: "今日",
