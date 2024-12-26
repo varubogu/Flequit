@@ -174,6 +174,8 @@ export const load = (async () => {
   // 将来的にはここでAPIからデータを取得する
   const data = initialData;
 
+  console.log('Loading initial data:', data.projects);
+
   // プロジェクトデータをストアに登録
   updateProjects(data.projects);
 

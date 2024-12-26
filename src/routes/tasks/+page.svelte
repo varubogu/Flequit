@@ -12,19 +12,26 @@
   import { taskParams, getCurrentParams, createTaskSelection } from "$lib/features/tasks/task-params";
 
   // プロジェクトストアを購読
-  let projects = $derived($projectsStore);
+  const projects = $derived($projectsStore);
+  console.log('Projects in page:', projects);
 
   // タスク選択の状態管理
   const taskSelection = createTaskSelection();
   const { selectedTask, isDetailOpen, selectTask, closeDetail } = taskSelection;
 
   // 表示するタスクリストの取得
-  let displayTasks = $derived(() => {
-    if (!projects) return [];
+  const displayTasks = $derived(getDisplayTasks());
+
+  // タスクリストの取得ロジック
+  function getDisplayTasks(): Task[] {
+    if (!projects) {
+      console.log('No projects data available');
+      return [];
+    }
 
     const params = getCurrentParams();
     console.log('Current params:', params);
-    console.log('Projects:', projects);
+    console.log('Available projects:', projects);
 
     if (params.daily) {
       // すべてのプロジェクトのタスクを結合
@@ -39,8 +46,9 @@
 
     const projectTasks = getTasksFromProjects(projects, params.project, params.taskList);
     console.log('Project tasks:', projectTasks);
+    console.log('Main project:', projects.find(p => p.id === 'main'));
     return projectTasks;
-  });
+  }
 
   // タスクリストが更新されたら選択状態も更新
   $effect(() => {
