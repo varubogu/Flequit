@@ -16,6 +16,7 @@
   <AppSidebar projects={data.projects} />
   <Sidebar.Inset>
     <main class="p-4">
+      <Sidebar.Trigger />
       {@render children?.()}
     </main>
   </Sidebar.Inset>
