@@ -2,143 +2,42 @@
   import { ChevronLeft } from "lucide-svelte";
   import { Plus } from "lucide-svelte";
   import { fly } from "svelte/transition";
-  import { goto } from "$app/navigation";
-  import { page } from "$app/stores";
   import { Button } from "$ui/button";
   import TaskItem from "$components/task-item.svelte";
   import TaskDetail from "$components/task-detail.svelte";
   import type { Task } from "$types/components/task";
   import { projectsStore } from "$lib/stores/projects";
-
-  let selectedTask: Task | null = null;
-  let isDetailOpen = false;
+  import { filterTasksByDate } from "$lib/features/tasks/task-filter";
+  import { updateTask, getTasksFromProjects } from "$lib/features/tasks/task-store";
+  import { taskParams, getCurrentParams, createTaskSelection } from "$lib/features/tasks/task-params";
 
   // プロジェクトストアを購読
   let projects = $derived($projectsStore);
 
-  // URLパラメータの監視
-  let currentDaily = $derived($page.url.searchParams.get("daily"));
-  let currentProject = $derived($page.url.searchParams.get("project"));
-  let currentTaskList = $derived($page.url.searchParams.get("tasks"));
-  let currentTaskId = $derived($page.url.searchParams.get("task"));
+  // タスク選択の状態管理
+  const taskSelection = createTaskSelection();
+  const { selectedTask, isDetailOpen, selectTask, closeDetail } = taskSelection;
 
   // 表示するタスクリストの取得
   let displayTasks = $derived(() => {
     if (!projects) return [];
 
-    if (currentDaily) {
-      // 日付フィルターに基づくタスク
-      const now = new Date();
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      const nextWeek = new Date(today);
-      nextWeek.setDate(nextWeek.getDate() + 7);
-
+    const params = getCurrentParams();
+    if (params.daily) {
       // すべてのプロジェクトのタスクを結合
       const allTasks = projects.flatMap((project) =>
-        project.taskLists.flatMap((list) => list.tasks),
+        project.taskLists.flatMap((list) => list.tasks)
       );
-
-      switch (currentDaily) {
-        case "today":
-          return allTasks.filter((task) => {
-            if (!task.dueDate) return false;
-            const taskDate = new Date(task.dueDate.value.toString());
-            const taskDay = new Date(
-              taskDate.getFullYear(),
-              taskDate.getMonth(),
-              taskDate.getDate(),
-            );
-            return taskDay.getTime() === today.getTime();
-          });
-        case "tomorrow":
-          return allTasks.filter((task) => {
-            if (!task.dueDate) return false;
-            const taskDate = new Date(task.dueDate.value.toString());
-            const taskDay = new Date(
-              taskDate.getFullYear(),
-              taskDate.getMonth(),
-              taskDate.getDate(),
-            );
-            return taskDay.getTime() === tomorrow.getTime();
-          });
-        case "week":
-          return allTasks.filter((task) => {
-            if (!task.dueDate) return false;
-            const taskDate = new Date(task.dueDate.value.toString());
-            const taskDay = new Date(
-              taskDate.getFullYear(),
-              taskDate.getMonth(),
-              taskDate.getDate(),
-            );
-            return taskDay >= today && taskDay < nextWeek;
-          });
-        case "inbox":
-          return allTasks.filter((task) => !task.dueDate);
-        default:
-          return [];
-      }
-    } else if (currentProject && currentTaskList) {
-      // プロジェクトのタスクリスト
-      const project = projects.find((p) => p.id === currentProject);
-      const taskList = project?.taskLists?.find(
-        (t) => t.id === currentTaskList,
-      );
-      return taskList?.tasks ?? [];
-    } else if (currentProject) {
-      // プロジェクト全体のタスク
-      const project = projects.find((p) => p.id === currentProject);
-      return project?.taskLists?.flatMap((t) => t.tasks) ?? [];
+      return filterTasksByDate(allTasks, params.daily);
     }
-    // デフォルトではメインプロジェクトのタスクを表示
-    const mainProject = projects.find((p) => p.id === "main");
-    return mainProject?.taskLists?.[0]?.tasks ?? [];
+
+    return getTasksFromProjects(projects, params.project, params.taskList);
   });
 
-  // タスクの選択状態の管理
+  // タスクリストが更新されたら選択状態も更新
   $effect(() => {
-    if (currentTaskId) {
-      selectedTask = displayTasks.find((t) => t.id === currentTaskId) ?? null;
-      isDetailOpen = !!selectedTask;
-    }
+    taskSelection.updateSelection(displayTasks);
   });
-
-  // タスク選択時の処理
-  function selectTask(task: Task) {
-    selectedTask = task;
-    isDetailOpen = true;
-    const searchParams = new URLSearchParams($page.url.searchParams);
-    searchParams.set("task", task.id);
-    goto(`?${searchParams.toString()}`);
-  }
-
-  // タスク更新時の処理
-  function updateTask(updatedTask: Task) {
-    // すべてのプロジェクトとタスクリストを検索
-    for (const project of projects) {
-      for (const taskList of project.taskLists) {
-        const index = taskList.tasks.findIndex(
-          (t: Task) => t.id === updatedTask.id,
-        );
-        if (index !== -1) {
-          taskList.tasks[index] = updatedTask;
-          if (selectedTask?.id === updatedTask.id) {
-            selectedTask = updatedTask;
-          }
-          return;
-        }
-      }
-    }
-  }
-
-  // モバイルでの詳細画面を閉じる処理
-  function closeDetail() {
-    isDetailOpen = false;
-    const searchParams = new URLSearchParams($page.url.searchParams);
-    searchParams.delete("task");
-    goto(`?${searchParams.toString()}`);
-  }
 </script>
 
 <div class="h-screen flex">
@@ -189,7 +88,7 @@
         variant="ghost"
         size="icon"
         class="absolute top-4 left-4"
-        onclick={closeDetail}
+        on:click={closeDetail}
       >
         <ChevronLeft class="h-4 w-4" />
       </Button>

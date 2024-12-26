@@ -6,8 +6,15 @@
   import AppSidebar from "$components/app-sidebar.svelte";
   import { projectsStore } from "$lib/stores/projects";
 
+  let { children } = $props();
+
   // ストアから値を購読
-  $: projects = $projectsStore;
+  let projects = $derived($projectsStore);
+
+  // テーマの初期化
+  onMount(() => {
+    theme.initialize();
+  });
 </script>
 
 <Sidebar.Provider open={true} controlledOpen={true}>
