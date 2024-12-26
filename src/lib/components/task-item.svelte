@@ -17,11 +17,6 @@
     toDateValue,
     type DateTime,
   } from "$src/types/primitive-extensions/date-time";
-  import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher<{
-    select: { task: Task };
-    update: { task: Task };
-  }>();
 
   export let task: Task;
   $: dueDate = task?.dueDate ?? null;

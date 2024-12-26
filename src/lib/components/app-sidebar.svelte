@@ -17,6 +17,7 @@
   } from "lucide-svelte";
   import type { Project } from "$types/components/project";
   import SearchForm from "./search-form.svelte";
+    import { goto } from "$app/navigation";
 
   export let projects: Project[];
 

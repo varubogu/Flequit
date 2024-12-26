@@ -10,7 +10,7 @@ const initialData = {
   projects: [
     {
       id: "main",
-      name: "メインタスクリスト",
+      name: "メインタスクリストｄ",
       icon: "📝",
       taskLists: [
         {
@@ -21,7 +21,7 @@ const initialData = {
             {
               id: "task-1",
               icon: "📝",
-              name: "今日期限のタスク",
+              name: "今日期限のタスク1",
               description: "今日中に完了すべきタスク",
               importance: Importance.High,
               priority: Priority.High,
