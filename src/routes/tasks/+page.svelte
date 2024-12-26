@@ -10,10 +10,20 @@
   import { filterTasksByDate } from "$lib/features/tasks/task-filter";
   import { updateTask, getTasksFromProjects } from "$lib/features/tasks/task-store";
   import { taskParams, getCurrentParams, createTaskSelection } from "$lib/features/tasks/task-params";
+  import { page } from "$app/stores";
 
   // プロジェクトストアを購読
   const projects = $derived($projectsStore);
   console.log('Projects in page:', projects);
+
+  // URLパラメータの監視
+  const urlParams = $derived($page.url.searchParams);
+
+  // URLパラメータが変更されたら再レンダリング
+  $effect(() => {
+    console.log('URL params changed:', urlParams.toString());
+    void displayTasks;  // 再計算をトリガー
+  });
 
   // タスク選択の状態管理
   const taskSelection = createTaskSelection();
@@ -46,7 +56,6 @@
 
     const projectTasks = getTasksFromProjects(projects, params.project, params.taskList);
     console.log('Project tasks:', projectTasks);
-    console.log('Main project:', projects.find(p => p.id === 'main'));
     return projectTasks;
   }
 

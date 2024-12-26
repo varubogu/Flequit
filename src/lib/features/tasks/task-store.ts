@@ -17,21 +17,36 @@ export function updateTask(updatedTask: Task) {
     updateProjects(updatedProjects);
 }
 
-export function getTasksFromProjects(projects: Project[], projectId?: string, taskListId?: string): Task[] {
-    if (!projects) return [];
+export function getTasksFromProjects(
+    projects: Project[],
+    projectId?: string | null,
+    taskListId?: string | null
+): Task[] {
+    console.log('Getting tasks from projects:', { projects, projectId, taskListId });
 
-    if (projectId && taskListId) {
-        // プロジェクトのタスクリスト
-        const project = projects.find((p) => p.id === projectId);
-        const taskList = project?.taskLists?.find((t) => t.id === taskListId);
-        return taskList?.tasks ?? [];
-    } else if (projectId) {
-        // プロジェクト全体のタスク
-        const project = projects.find((p) => p.id === projectId);
-        return project?.taskLists?.flatMap((t) => t.tasks) ?? [];
+    if (!projectId) {
+        console.log('No project ID specified, returning empty array');
+        return [];
     }
 
-    // デフォルトではメインプロジェクトのタスクを表示
-    const mainProject = projects.find((p) => p.id === "main");
-    return mainProject?.taskLists?.[0]?.tasks ?? [];
+    const project = projects.find((p) => p.id === projectId);
+    if (!project) {
+        console.log('Project not found:', projectId);
+        return [];
+    }
+
+    console.log('Found project:', project);
+
+    if (taskListId) {
+        const taskList = project.taskLists.find((list) => list.id === taskListId);
+        if (!taskList) {
+            console.log('Task list not found:', taskListId);
+            return [];
+        }
+        console.log('Found task list:', taskList);
+        return taskList.tasks;
+    }
+
+    console.log('No task list specified, returning all tasks from project');
+    return project.taskLists.flatMap((list) => list.tasks);
 }
