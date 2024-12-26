@@ -22,31 +22,23 @@ export function getTasksFromProjects(
     projectId?: string | null,
     taskListId?: string | null
 ): Task[] {
-    console.log('Getting tasks from projects:', { projects, projectId, taskListId });
 
     if (!projectId) {
-        console.log('No project ID specified, returning empty array');
         return [];
     }
 
     const project = projects.find((p) => p.id === projectId);
     if (!project) {
-        console.log('Project not found:', projectId);
         return [];
     }
-
-    console.log('Found project:', project);
 
     if (taskListId) {
         const taskList = project.taskLists.find((list) => list.id === taskListId);
         if (!taskList) {
-            console.log('Task list not found:', taskListId);
             return [];
         }
-        console.log('Found task list:', taskList);
         return taskList.tasks;
     }
 
-    console.log('No task list specified, returning all tasks from project');
     return project.taskLists.flatMap((list) => list.tasks);
 }

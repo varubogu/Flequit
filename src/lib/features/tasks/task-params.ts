@@ -1,4 +1,4 @@
-import { derived, get } from "svelte/store";
+import { derived, get, writable } from "svelte/store";
 import { page } from "$app/stores";
 import type { Task } from "$types/components/task";
 import { goto } from "$app/navigation";
@@ -23,26 +23,27 @@ export function getCurrentParams() {
 
 // タスク選択の状態管理
 export function createTaskSelection() {
-    let selectedTask: Task | null = null;
-    let isDetailOpen = false;
+    const selectedTask = writable<Task | null>(null);
+    const isDetailOpen = writable(false);
 
     return {
         selectedTask,
         isDetailOpen,
         selectTask: (task: Task) => {
-            selectedTask = task;
-            isDetailOpen = true;
+            selectedTask.set(task);
+            isDetailOpen.set(true);
             updateTaskInUrl(task);
         },
         closeDetail: () => {
-            isDetailOpen = false;
+            isDetailOpen.set(false);
             removeTaskFromUrl();
         },
         updateSelection: (tasks: Task[]) => {
             const { taskId } = getCurrentParams();
             if (taskId) {
-                selectedTask = tasks.find((t) => t.id === taskId) ?? null;
-                isDetailOpen = !!selectedTask;
+                const task = tasks.find((t) => t.id === taskId) ?? null;
+                selectedTask.set(task);
+                isDetailOpen.set(!!task);
             }
         }
     };

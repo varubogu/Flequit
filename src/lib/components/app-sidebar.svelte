@@ -49,17 +49,14 @@
 
   // フビゲーション関数
   function handleDailyClick(param: string) {
-    console.log("Daily clicked:", param);
     const searchParams = new URLSearchParams($page.url.searchParams);
     searchParams.set("daily", param);
     searchParams.delete("project");
     searchParams.delete("tasks");
-    console.log("Daily URL params:", searchParams.toString());
     goto(`?${searchParams.toString()}`);
   }
 
   function handleProjectClick(projectId: string, taskListId?: string) {
-    console.log("Project clicked:", { projectId, taskListId });
     const searchParams = new URLSearchParams($page.url.searchParams);
     searchParams.delete("daily");
     searchParams.set("project", projectId);
@@ -68,7 +65,6 @@
     } else {
       searchParams.delete("tasks");
     }
-    console.log("Project URL params:", searchParams.toString());
     goto(`?${searchParams.toString()}`);
   }
 

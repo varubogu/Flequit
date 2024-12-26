@@ -14,7 +14,6 @@
 
   // プロジェクトストアを購読
   const projects = $derived($projectsStore);
-  console.log('Projects in page:', projects);
 
   // URLパラメータの監視
   const urlParams = $derived($page.url.searchParams);
@@ -29,6 +28,10 @@
   const taskSelection = createTaskSelection();
   const { selectedTask, isDetailOpen, selectTask, closeDetail } = taskSelection;
 
+  // ストアの値を購読
+  const selectedTaskValue = $derived($selectedTask);
+  const isDetailOpenValue = $derived($isDetailOpen);
+
   // 表示するタスクリストの取得
   const displayTasks = $derived(getDisplayTasks());
 
@@ -38,7 +41,6 @@
     console.log('2. getDisplayTasks called with urlParams:', urlParams.toString());
 
     if (!projects) {
-      console.log('2. No projects data available');
       return [];
     }
 
@@ -98,19 +100,19 @@
   </div>
 
   <!-- タスク詳細 - PC -->
-  <div class="hidden lg:block w-72 border-l">
-    {#if selectedTask}
+  <div class="lg:block w-72 border-l">
+    {#if selectedTaskValue}
       <TaskDetail
-        task={selectedTask}
+        task={selectedTaskValue}
         on:update={({ detail }) => updateTask(detail.task)}
       />
     {/if}
   </div>
 
   <!-- タスク詳細 - モバイル -->
-  {#if isDetailOpen}
+  {#if isDetailOpenValue}
     <div
-      class="lg:hidden fixed inset-0 bg-background"
+      class="fixed inset-0 bg-background"
       transition:fly={{ x: 300, duration: 200 }}
     >
       <Button
@@ -123,9 +125,9 @@
       </Button>
 
       <div class="pt-16">
-        {#if selectedTask}
+        {#if selectedTaskValue}
           <TaskDetail
-            task={selectedTask}
+            task={selectedTaskValue}
             on:update={({ detail }) => updateTask(detail.task)}
           />
         {/if}

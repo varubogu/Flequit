@@ -1,7 +1,6 @@
 import type { Task } from "$types/components/task";
 
 export function filterTasksByDate(tasks: Task[], filterType: string): Task[] {
-    console.log('Filtering tasks:', tasks, 'with filter:', filterType);
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -20,15 +19,12 @@ export function filterTasksByDate(tasks: Task[], filterType: string): Task[] {
         switch (filterType) {
             case 'today':
                 const isToday = dueDate.getTime() === today.getTime();
-                console.log('Task:', task.name, 'due:', dueDate, 'isToday:', isToday);
                 return isToday;
             case 'tomorrow':
                 const isTomorrow = dueDate.getTime() === tomorrow.getTime();
-                console.log('Task:', task.name, 'due:', dueDate, 'isTomorrow:', isTomorrow);
                 return isTomorrow;
             case 'week':
                 const isThisWeek = dueDate >= today && dueDate <= weekEnd;
-                console.log('Task:', task.name, 'due:', dueDate, 'isThisWeek:', isThisWeek);
                 return isThisWeek;
             case 'inbox':
                 return true;
@@ -37,7 +33,6 @@ export function filterTasksByDate(tasks: Task[], filterType: string): Task[] {
         }
     });
 
-    console.log('Filtered result:', filtered);
     return filtered;
 }
 
