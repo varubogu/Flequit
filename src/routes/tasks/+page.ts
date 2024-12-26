@@ -4,6 +4,7 @@ import { toDateTime } from "$types/primitive-extensions/date-time";
 import { Importance } from "$types/enum/importance";
 import { Priority } from "$types/enum/priority";
 import type { Project } from "$types/components/project";
+import { updateProjects } from "$lib/stores/projects";
 
 // 初期データ
 const initialData = {
@@ -171,5 +172,10 @@ const initialData = {
 
 export const load = (async () => {
   // 将来的にはここでAPIからデータを取得する
-  return initialData;
+  const data = initialData;
+
+  // プロジェクトデータをストアに登録
+  updateProjects(data.projects);
+
+  return data;
 }) satisfies PageLoad;

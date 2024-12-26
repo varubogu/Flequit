@@ -13,14 +13,11 @@
   } from "$src/lib/utils/datetimeFormat";
   import {
     toDateTime,
-    toJsDate,
     toDateValue,
-    type DateTime,
   } from "$src/types/primitive-extensions/date-time";
 
   export let task: Task;
   $: dueDate = task?.dueDate ?? null;
-  $: dueDate_Date = task && task.dueDate ? toJsDate(task.dueDate) : null;
 </script>
 
 <Card class="p-4">

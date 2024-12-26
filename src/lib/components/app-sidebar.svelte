@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import { projectsStore } from "$lib/stores/projects";
   import { Button } from "$ui/button";
   import * as Sidebar from "$ui/sidebar/index";
   import * as Tooltip from "$ui/tooltip";
@@ -17,9 +18,16 @@
   } from "lucide-svelte";
   import type { Project } from "$types/components/project";
   import SearchForm from "./search-form.svelte";
-    import { goto } from "$app/navigation";
+  import { goto } from "$app/navigation";
 
-  export let projects: Project[];
+  // プロジェクトストアを購読
+  $: projects = $projectsStore;
+  $: {
+    console.log(
+      "サイドメニュー: プロジェクトストアが更新されました:",
+      JSON.stringify(projects, null, 2),
+    );
+  }
 
   // URLパラメータの監視
   $: currentDaily = $page.url.searchParams.get("daily");
@@ -83,7 +91,7 @@
     },
   ];
 
-  // デイリータスク��イテム
+  // デイリータスクアイテム
   const dailyItems = [
     {
       title: "今日",
