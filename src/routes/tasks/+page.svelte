@@ -19,10 +19,10 @@
   // URLパラメータの監視
   const urlParams = $derived($page.url.searchParams);
 
-  // URLパラメータが変更されたら再レンダリング
+  // 1. URLパラメータの変更検知
   $effect(() => {
-    console.log('URL params changed:', urlParams.toString());
-    void displayTasks;  // 再計算をトリガー
+    console.log('1. URL params changed:', urlParams.toString());
+    console.log('1. Current params from getCurrentParams():', getCurrentParams());
   });
 
   // タスク選択の状態管理
@@ -34,33 +34,37 @@
 
   // タスクリストの取得ロジック
   function getDisplayTasks(): Task[] {
+    // 2. パラメータ変更時のタスクリストの再計算
+    console.log('2. getDisplayTasks called with urlParams:', urlParams.toString());
+
     if (!projects) {
-      console.log('No projects data available');
+      console.log('2. No projects data available');
       return [];
     }
 
     const params = getCurrentParams();
-    console.log('Current params:', params);
-    console.log('Available projects:', projects);
+    console.log('2. Current params:', params);
+    console.log('2. Available projects:', projects);
 
     if (params.daily) {
       // すべてのプロジェクトのタスクを結合
       const allTasks = projects.flatMap((project) =>
         project.taskLists.flatMap((list) => list.tasks)
       );
-      console.log('All tasks for daily view:', allTasks);
+      console.log('2. All tasks for daily view:', allTasks);
       const filteredTasks = filterTasksByDate(allTasks, params.daily);
-      console.log('Filtered tasks:', filteredTasks);
+      console.log('2. Filtered tasks:', filteredTasks);
       return filteredTasks;
     }
 
     const projectTasks = getTasksFromProjects(projects, params.project, params.taskList);
-    console.log('Project tasks:', projectTasks);
+    console.log('2. Project tasks:', projectTasks);
     return projectTasks;
   }
 
-  // タスクリストが更新されたら選択状態も更新
+  // 3. 画面の再レンダリング
   $effect(() => {
+    console.log('3. displayTasks updated:', displayTasks);
     taskSelection.updateSelection(displayTasks);
   });
 </script>
