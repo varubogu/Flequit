@@ -11,7 +11,7 @@
 	}: WithElementRef<HTMLAttributes<HTMLElement>> = $props();
 </script>
 
-<main
+<div
 	bind:this={ref}
 	class={cn(
 		"bg-background relative flex min-h-svh flex-1 flex-col",
@@ -21,4 +21,4 @@
 	{...restProps}
 >
 	{@render children?.()}
-</main>
+</div>
