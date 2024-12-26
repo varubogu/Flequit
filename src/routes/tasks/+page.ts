@@ -177,5 +177,6 @@ export const load = (async () => {
   // プロジェクトデータをストアに登録
   updateProjects(data.projects);
 
-  return data;
+  // 呼び出し元で終了検知のため空オブジェクトを返す
+  return {};
 }) satisfies PageLoad;

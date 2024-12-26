@@ -8,10 +8,8 @@
   import TaskItem from "$components/task-item.svelte";
   import TaskDetail from "$components/task-detail.svelte";
   import type { Task } from "$types/components/task";
-  import type { PageData } from "./$types";
   import { projectsStore } from "$lib/stores/projects";
 
-  let { data } = $props<{ data: PageData }>();
   let selectedTask: Task | null = null;
   let isDetailOpen = false;
 

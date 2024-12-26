@@ -4,16 +4,14 @@
   import { theme } from "$lib/stores/theme";
   import * as Sidebar from "$ui/sidebar/index";
   import AppSidebar from "$components/app-sidebar.svelte";
-  import type { LayoutData } from "./$types";
+  import { projectsStore } from "$lib/stores/projects";
 
-  let { data, children } = $props<{ data: LayoutData }>();
-  onMount(() => {
-    theme.initialize();
-  });
+  // ストアから値を購読
+  $: projects = $projectsStore;
 </script>
 
 <Sidebar.Provider open={true} controlledOpen={true}>
-  <AppSidebar projects={data.projects} />
+  <AppSidebar projects={projects} />
   <Sidebar.Inset>
     <main class="p-4">
       <Sidebar.Trigger />
