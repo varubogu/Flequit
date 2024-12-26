@@ -2,7 +2,6 @@ import type { Task } from "$types/components/task";
 
 export function filterTasksByDate(tasks: Task[], filterType: string): Task[] {
     console.log('Filtering tasks:', tasks, 'with filter:', filterType);
-    const now = new Date();
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -15,21 +14,21 @@ export function filterTasksByDate(tasks: Task[], filterType: string): Task[] {
 
     const filtered = tasks.filter(task => {
         if (!task.dueDate) return false;
-        const dueDate = new Date(task.dueDate);
+        const dueDate = new Date(task.dueDate.value.toString());
         dueDate.setHours(0, 0, 0, 0);
 
         switch (filterType) {
             case 'today':
                 const isToday = dueDate.getTime() === today.getTime();
-                console.log('Task:', task.title, 'due:', dueDate, 'isToday:', isToday);
+                console.log('Task:', task.name, 'due:', dueDate, 'isToday:', isToday);
                 return isToday;
             case 'tomorrow':
                 const isTomorrow = dueDate.getTime() === tomorrow.getTime();
-                console.log('Task:', task.title, 'due:', dueDate, 'isTomorrow:', isTomorrow);
+                console.log('Task:', task.name, 'due:', dueDate, 'isTomorrow:', isTomorrow);
                 return isTomorrow;
             case 'week':
                 const isThisWeek = dueDate >= today && dueDate <= weekEnd;
-                console.log('Task:', task.title, 'due:', dueDate, 'isThisWeek:', isThisWeek);
+                console.log('Task:', task.name, 'due:', dueDate, 'isThisWeek:', isThisWeek);
                 return isThisWeek;
             case 'inbox':
                 return true;
