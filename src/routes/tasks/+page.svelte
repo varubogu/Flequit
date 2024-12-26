@@ -18,12 +18,6 @@
   // URLパラメータの監視
   const urlParams = $derived($page.url.searchParams);
 
-  // 1. URLパラメータの変更検知
-  $effect(() => {
-    console.log('1. URL params changed:', urlParams.toString());
-    console.log('1. Current params from getCurrentParams():', getCurrentParams());
-  });
-
   // タスク選択の状態管理
   const taskSelection = createTaskSelection();
   const { selectedTask, isDetailOpen, selectTask, closeDetail } = taskSelection;
@@ -38,6 +32,7 @@
   // タスクリストの取得ロジック
   function getDisplayTasks(): Task[] {
     // 2. パラメータ変更時のタスクリストの再計算
+    // これを消すと再レンダリングが行われないので注意
     console.log('2. getDisplayTasks called with urlParams:', urlParams.toString());
 
     if (!projects) {
@@ -45,28 +40,22 @@
     }
 
     const params = getCurrentParams();
-    console.log('2. Current params:', params);
-    console.log('2. Available projects:', projects);
 
     if (params.daily) {
       // すべてのプロジェクトのタスクを結合
       const allTasks = projects.flatMap((project) =>
         project.taskLists.flatMap((list) => list.tasks)
       );
-      console.log('2. All tasks for daily view:', allTasks);
       const filteredTasks = filterTasksByDate(allTasks, params.daily);
-      console.log('2. Filtered tasks:', filteredTasks);
       return filteredTasks;
     }
 
     const projectTasks = getTasksFromProjects(projects, params.project, params.taskList);
-    console.log('2. Project tasks:', projectTasks);
     return projectTasks;
   }
 
   // 3. 画面の再レンダリング
   $effect(() => {
-    console.log('3. displayTasks updated:', displayTasks);
     taskSelection.updateSelection(displayTasks);
   });
 </script>
