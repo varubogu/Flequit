@@ -8,8 +8,15 @@
   import type { Task } from "$types/components/task";
   import { projectsStore } from "$lib/stores/projects";
   import { filterTasksByDate } from "$lib/features/tasks/task-filter";
-  import { updateTask, getTasksFromProjects } from "$lib/features/tasks/task-store";
-  import { taskParams, getCurrentParams, createTaskSelection } from "$lib/features/tasks/task-params";
+  import {
+    updateTask,
+    getTasksFromProjects,
+  } from "$lib/features/tasks/task-store";
+  import {
+    taskParams,
+    getCurrentParams,
+    createTaskSelection,
+  } from "$lib/features/tasks/task-params";
   import { page } from "$app/stores";
 
   // プロジェクトストアを購読
@@ -33,7 +40,10 @@
   function getDisplayTasks(): Task[] {
     // 2. パラメータ変更時のタスクリストの再計算
     // これを消すと再レンダリングが行われないので注意
-    console.log('2. getDisplayTasks called with urlParams:', urlParams.toString());
+    console.log(
+      "2. getDisplayTasks called with urlParams:",
+      urlParams.toString(),
+    );
 
     if (!projects) {
       return [];
@@ -44,13 +54,17 @@
     if (params.daily) {
       // すべてのプロジェクトのタスクを結合
       const allTasks = projects.flatMap((project) =>
-        project.taskLists.flatMap((list) => list.tasks)
+        project.taskLists.flatMap((list) => list.tasks),
       );
       const filteredTasks = filterTasksByDate(allTasks, params.daily);
       return filteredTasks;
     }
 
-    const projectTasks = getTasksFromProjects(projects, params.project, params.taskList);
+    const projectTasks = getTasksFromProjects(
+      projects,
+      params.project,
+      params.taskList,
+    );
     return projectTasks;
   }
 
@@ -89,7 +103,7 @@
   </div>
 
   <!-- タスク詳細 - PC -->
-  <div class="lg:block w-72 border-l">
+  <div class="hidden lg:block w-72 border-l">
     {#if selectedTaskValue}
       <TaskDetail
         task={selectedTaskValue}
@@ -106,7 +120,7 @@
     >
       <Button
         variant="ghost"
-        size="icon"
+        size="sm"
         class="absolute top-4 left-4"
         on:click={closeDetail}
       >

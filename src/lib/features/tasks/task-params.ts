@@ -36,6 +36,7 @@ export function createTaskSelection() {
         },
         closeDetail: () => {
             isDetailOpen.set(false);
+            selectedTask.set(null);
             removeTaskFromUrl();
         },
         updateSelection: (tasks: Task[]) => {
@@ -44,6 +45,9 @@ export function createTaskSelection() {
                 const task = tasks.find((t) => t.id === taskId) ?? null;
                 selectedTask.set(task);
                 isDetailOpen.set(!!task);
+            } else {
+                selectedTask.set(null);
+                isDetailOpen.set(false);
             }
         }
     };
@@ -51,13 +55,13 @@ export function createTaskSelection() {
 
 // URLパラメータの更新
 function updateTaskInUrl(task: Task) {
-    const searchParams = new URLSearchParams(get(page).url.searchParams);
-    searchParams.set("task", task.id);
-    goto(`?${searchParams.toString()}`);
+    const currentParams = new URLSearchParams(get(page).url.searchParams);
+    currentParams.set("task", task.id);
+    goto(`?${currentParams.toString()}`, { keepFocus: true });
 }
 
 function removeTaskFromUrl() {
-    const searchParams = new URLSearchParams(get(page).url.searchParams);
-    searchParams.delete("task");
-    goto(`?${searchParams.toString()}`);
+    const currentParams = new URLSearchParams(get(page).url.searchParams);
+    currentParams.delete("task");
+    goto(`?${currentParams.toString()}`, { keepFocus: true });
 }

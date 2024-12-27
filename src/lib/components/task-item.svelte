@@ -17,26 +17,17 @@
   } from "$src/types/primitive-extensions/date-time";
 
   export let task: Task;
+  export let onUpdate: (updatedTask: Task) => void;
   $: dueDate = task?.dueDate ?? null;
 </script>
 
-<Card class="p-4">
-  <div
-    class="cursor-pointer hover:bg-muted/50"
-    role="button"
-    on:click|preventDefault={() => {
-      dispatch("select", { task });
-    }}
-  >
+<Card class="">
+  <div class="cursor-pointer hover:bg-muted/50 p-4" role="button">
     <div class="flex items-center justify-between">
-      <div class="flex items-center gap-4" on:click|stopPropagation>
-        <div on:click|stopPropagation>
-          <Checkbox checked={task.completed} />
-        </div>
-        <span class="text-sm font-medium">{task.name}</span>
-      </div>
+      <Checkbox class="p-2 rounded-full w-4 h-4" checked={task.completed} />
+      <span class="w-full p-2 text-sm font-medium">{task.name}</span>
       <Popover>
-        <div on:click|stopPropagation>
+        <div>
           <PopoverTrigger
             class={cn(
               buttonVariants({
@@ -57,11 +48,11 @@
               value={dueDate ? toDateValue(dueDate) : undefined}
               onValueChange={(date) => {
                 if (date) {
-                  task = { ...task, dueDate: toDateTime(date) };
-                  dispatch("update", { task });
+                  const updatedTask = { ...task, dueDate: toDateTime(date) };
+                  onUpdate(updatedTask);
                 } else {
-                  task = { ...task, dueDate: null };
-                  dispatch("update", { task });
+                  const updatedTask = { ...task, dueDate: null };
+                  onUpdate(updatedTask);
                 }
               }}
             />
