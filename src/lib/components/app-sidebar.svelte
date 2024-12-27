@@ -22,12 +22,6 @@
 
   // プロジェクトストアを購読
   $: projects = $projectsStore;
-  $: {
-    console.log(
-      "サイドメニュー: プロジェクトストアが更新されました:",
-      projects
-    );
-  }
 
   // URLパラメータの監視
   $: currentDaily = $page.url.searchParams.get("daily");
