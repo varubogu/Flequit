@@ -28,7 +28,7 @@
   $: currentProject = $page.url.searchParams.get("project");
   $: currentTaskList = $page.url.searchParams.get("tasks");
 
-  // フビゲーション関数
+  // ナビゲーション関数
   function updateSearchParams(updates: { [key: string]: string | null }) {
     const searchParams = new URLSearchParams($page.url.searchParams);
     Object.entries(updates).forEach(([key, value]) => {
@@ -41,7 +41,7 @@
     goto(`?${searchParams.toString()}`);
   }
 
-  // フビゲーション関数
+  // ナビゲーション関数
   function handleDailyClick(param: string) {
     const searchParams = new URLSearchParams($page.url.searchParams);
     searchParams.set("daily", param);
