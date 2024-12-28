@@ -16,6 +16,10 @@ const initialTaskDetail: TaskDetailviewTasks = {
     subTasks: []
 }
 
-const taskDetail = $state<TaskDetailviewTasks>(initialTaskDetail);
+let taskDetail = $state<TaskDetailviewTasks>(initialTaskDetail);
+
+export function setTaskDetail(task: TaskDetailviewTasks) {
+    Object.assign(taskDetail, task);
+}
 
 export { taskDetail };

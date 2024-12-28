@@ -19,11 +19,12 @@
   } from "$src/types/primitive-extensions/date-time";
   import type { DateValue } from "@internationalized/date";
   import { createEventDispatcher } from "svelte";
+  import { taskDetail } from "../stores/task-detail.svelte";
   const dispatch = createEventDispatcher<{
     update: { task: Task };
   }>();
 
-  export let task: Task | null = null;
+  let task: Task | null = taskDetail;
   $: dueDate = task?.dueDate ?? null;
   $: dueDate_Date = task && task.dueDate ? toJsDate(task.dueDate) : null;
 </script>

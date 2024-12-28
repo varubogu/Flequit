@@ -16,14 +16,24 @@
     toDateValue,
   } from "$src/types/primitive-extensions/date-time";
 
-  let { task, onUpdate } = $props<{
+  let { task, onUpdate, onSelect } = $props<{
     task: Task;
+    onUpdate: (task: Task) => void;
+    onSelect: (task: Task) => void;
   }>();
 
   let dueDate = $derived(task?.dueDate ?? null);
 </script>
 
-<Card class="">
+<Card class=""
+  onclick={() => {
+    updateSearchParams({
+      daily: null,
+      project: project.id,
+      tasks: null,
+      task
+    });
+  }}>
   <div class="cursor-pointer hover:bg-muted/50 p-4" role="button">
     <div class="flex items-center justify-between">
       <Checkbox class="p-2 rounded-full w-4 h-4" checked={task.completed} />

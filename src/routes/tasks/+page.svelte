@@ -18,6 +18,7 @@
   import TaskDetail from "$src/lib/components/task-detail.svelte";
   import { page } from "$app/state";
   import { sidebarProjects } from "$src/lib/stores/sidebar-projects.svelte";
+  import { goto } from "$app/navigation";
 
   // ストアを購読
   let projects = sidebarProjects
@@ -37,6 +38,9 @@
 
   async function onSelectedTask(task: Task) {
     selectedState.taskId = task.id;
+    updateSearchParams({
+      task: task.id,
+    });
   }
 
   const selected = selectedState;
@@ -104,6 +108,7 @@
   );
 
   updateFilteredTaskList(flatTaskList);
+
 </script>
 
 <div class="h-screen flex">
@@ -115,7 +120,7 @@
           {#each flatTaskList as task}
             <TaskItem
               {task}
-              on:select={({ detail }) => onSelectedTask(detail.task)}
+              on:select={({ detail }) => onSelectedTask(task)}
             />
           {/each}
         </div>
@@ -134,6 +139,6 @@
   </div>
   <!-- タスク詳細 -->
   <div class="flex-1 bg-muted/30 relative flex flex-col">
-    <TaskDetail task={selectedTask} />
+    <TaskDetail/>
   </div>
 </div>
