@@ -1,11 +1,10 @@
 import type { Task } from "$types/components/task";
 import type { Project } from "$types/components/project";
-import { projectsStore, updateProjects } from "$lib/stores/projects";
-import { get } from "svelte/store";
+import { projectTaskTree, updateProjectTaskTree } from "$lib/stores/project-task-tree.svelte";
 
 export function updateTask(updatedTask: Task) {
-    const projects = get(projectsStore);
-    const updatedProjects = projects.map(project => ({
+    const _projectTaskTree = projectTaskTree;
+    const updatedProjects = _projectTaskTree.map(project => ({
         ...project,
         taskLists: project.taskLists.map(taskList => ({
             ...taskList,
@@ -14,7 +13,7 @@ export function updateTask(updatedTask: Task) {
             )
         }))
     }));
-    updateProjects(updatedProjects);
+    updateProjectTaskTree(updatedProjects);
 }
 
 export function getTasksFromProjects(

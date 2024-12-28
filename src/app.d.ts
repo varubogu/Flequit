@@ -1,4 +1,4 @@
-import type { AvailableLanguageTag } from "$paraglide/runtime";
+import type { AvailableLanguageTag } from "$src/lib/paraglide/runtime";
 import type { ParaglideLocals } from "@inlang/paraglide-sveltekit";
 
 declare global {

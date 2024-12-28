@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { projectsStore } from "$lib/stores/projects";
+  import { sidebarProjects } from "$lib/stores/sidebar-projects.svelte";
   import { Button } from "$ui/button";
   import * as Sidebar from "$ui/sidebar/index";
   import * as Tooltip from "$ui/tooltip";
@@ -8,25 +8,21 @@
   import {
     CalendarDays,
     Inbox,
-    ListTodo,
     Plus,
     Settings,
     HelpCircle,
     UserIcon,
-    Search,
     ChevronDown,
   } from "lucide-svelte";
-  import type { Project } from "$types/components/project";
   import SearchForm from "./search-form.svelte";
   import { goto } from "$app/navigation";
+  import { selectedState } from "../stores/selected-store.svelte";
+  import { Daily } from "$src/types/enum/daily";
 
   // プロジェクトストアを購読
-  $: projects = $projectsStore;
+  let projects = sidebarProjects
+  const selected = selectedState;
 
-  // URLパラメータの監視
-  $: currentDaily = $page.url.searchParams.get("daily");
-  $: currentProject = $page.url.searchParams.get("project");
-  $: currentTaskList = $page.url.searchParams.get("tasks");
 
   // ナビゲーション関数
   function updateSearchParams(updates: { [key: string]: string | null }) {
@@ -38,27 +34,6 @@
         searchParams.set(key, value);
       }
     });
-    goto(`?${searchParams.toString()}`);
-  }
-
-  // ナビゲーション関数
-  function handleDailyClick(param: string) {
-    const searchParams = new URLSearchParams($page.url.searchParams);
-    searchParams.set("daily", param);
-    searchParams.delete("project");
-    searchParams.delete("tasks");
-    goto(`?${searchParams.toString()}`);
-  }
-
-  function handleProjectClick(projectId: string, taskListId?: string) {
-    const searchParams = new URLSearchParams($page.url.searchParams);
-    searchParams.delete("daily");
-    searchParams.set("project", projectId);
-    if (taskListId) {
-      searchParams.set("tasks", taskListId);
-    } else {
-      searchParams.delete("tasks");
-    }
     goto(`?${searchParams.toString()}`);
   }
 
@@ -86,21 +61,25 @@
     {
       title: "今日",
       param: "today",
+      paramValue: Daily.Today,
       icon: CalendarDays,
     },
     {
       title: "明日",
       param: "tomorrow",
+      paramValue: Daily.Tomorrow,
       icon: CalendarDays,
     },
     {
       title: "今週",
       param: "week",
+      paramValue: Daily.Week,
       icon: CalendarDays,
     },
     {
       title: "受信",
       param: "inbox",
+      paramValue: Daily.Inbox,
       icon: Inbox,
     },
   ];
@@ -113,7 +92,7 @@
     <nav class="grid gap-1 px-2">
       {#each dailyItems as item}
         <Button
-          variant={currentDaily === item.param ? "secondary" : "ghost"}
+          variant={selected.daily === item.paramValue ? "secondary" : "ghost"}
           class="w-full justify-start"
           onclick={() => {
             updateSearchParams({
@@ -151,11 +130,11 @@
           {#each projects as project}
             <Collapsible.Root
               class="space-y-1"
-              open={currentProject === project.id}
+              open={selected.projectId === project.id}
             >
               <Collapsible.Trigger class="w-full">
                 <Button
-                  variant={currentProject === project.id && !currentTaskList
+                  variant={selected.projectId === project.id && !selected.taskListId
                     ? "secondary"
                     : "ghost"}
                   class="w-full justify-start"
@@ -176,7 +155,7 @@
                 <div class="ml-4 space-y-1 pt-1">
                   {#each project.taskLists as taskList}
                     <Button
-                      variant={currentTaskList === taskList.id
+                      variant={selected.taskListId === taskList.id
                         ? "secondary"
                         : "ghost"}
                       class="w-full justify-start"

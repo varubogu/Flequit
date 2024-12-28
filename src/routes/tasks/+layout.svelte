@@ -1,24 +1,33 @@
 <script lang="ts">
   import "$src/global.css";
   import { onMount } from "svelte";
+  import { derived } from "svelte/store";
+  import { page } from "$app/state";
   import { theme } from "$lib/stores/theme";
-  import * as Sidebar from "$ui/sidebar/index";
   import AppSidebar from "$components/app-sidebar.svelte";
-  import { projectsStore } from "$lib/stores/projects";
-
+  import * as Sidebar from "$ui/sidebar/index";
+  import { selectedState } from "$lib/stores/selected-store.svelte";
+  import type { SelectedState } from "$src/types/state/selected-state";
+  import { DailyUtil } from "$src/types/enum/daily";
   let { children } = $props();
 
-  // ストアから値を購読
-  let projects = $derived($projectsStore);
+  $effect(() => {
+    selectedState.daily = DailyUtil.toDaily(page.url.searchParams.get("daily") ?? "");
+    selectedState.projectId = page.url.searchParams.get("project");
+    selectedState.taskListId = page.url.searchParams.get("tasks");
+    selectedState.taskId = page.url.searchParams.get("task");
+    selectedState.subTaskId = page.url.searchParams.get("subTask");
+    console.log(page.url.searchParams);
+  });
 
-  // テーマの初期化
   onMount(() => {
     theme.initialize();
+
   });
 </script>
 
 <Sidebar.Provider open={true} controlledOpen={true}>
-  <AppSidebar projects={projects} />
+  <AppSidebar />
   <Sidebar.Inset>
     <main class="p-4">
       <Sidebar.Trigger />

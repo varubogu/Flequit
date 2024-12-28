@@ -3,9 +3,10 @@ import { TagCoreSchema } from "./tag";
 import { ImportanceSchema } from "$types/enum/importance";
 import { PrioritySchema } from "$types/enum/priority";
 import { DateTimeSchema } from "$types/primitive-extensions/date-time";
+import { TaskIdSchema } from "$types/core/task-id";
 
 export const TaskCoreSchema = z.object({
-  id: z.string().uuid().nonempty(),
+  id: TaskIdSchema,
   icon: z.string(),
   name: z.string().nonempty(),
   description: z.string(),

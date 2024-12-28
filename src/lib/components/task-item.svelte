@@ -16,9 +16,12 @@
     toDateValue,
   } from "$src/types/primitive-extensions/date-time";
 
-  export let task: Task;
-  export let onUpdate: (updatedTask: Task) => void;
-  $: dueDate = task?.dueDate ?? null;
+  let { task, onUpdate } = $props<{
+    task: Task;
+    onUpdate: (updatedTask: Task) => void;
+  }>();
+
+  let dueDate = $derived(task?.dueDate ?? null);
 </script>
 
 <Card class="">

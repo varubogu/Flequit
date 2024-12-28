@@ -12,7 +12,7 @@ export default defineConfig(async () => ({
     sveltekit(),
     paraglide({
       project: "./project.inlang",
-      outdir: "./src/paraglide",
+      outdir: "./src/lib/paraglide",
     }),
   ],
 

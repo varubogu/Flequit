@@ -19,7 +19,7 @@ const config = {
       "$routes/*": "src/routes/*",
       "$services/*": "src/services/*",
       "$types/*": "src/types/*",
-      "$paraglide/*": "src/paraglide/*",
+      "$paraglide/*": "src/lib/paraglide/*",
       "$utils/*": "src/utils/*"
     }
   },
