@@ -19,10 +19,9 @@
   import { selectedState } from "../stores/selected-store.svelte";
   import { Daily } from "$src/types/enum/daily";
 
-  // プロジェクトストアを購読
+  // ストアを購読
   let projects = sidebarProjects
   const selected = selectedState;
-
 
   // ナビゲーション関数
   function updateSearchParams(updates: { [key: string]: string | null }) {
@@ -37,27 +36,8 @@
     goto(`?${searchParams.toString()}`);
   }
 
-  // フッターアイテム
-  const footerItems = [
-    {
-      title: "ヘルプ",
-      url: "/help",
-      icon: HelpCircle,
-    },
-    {
-      title: "設定",
-      url: "/settings",
-      icon: Settings,
-    },
-    {
-      title: "アカウント",
-      url: "/account",
-      icon: UserIcon,
-    },
-  ];
-
-  // デイリータスクイテム
-  const dailyItems = [
+    // デイリータスク
+    const dailyItems = [
     {
       title: "今日",
       param: "today",
@@ -81,6 +61,25 @@
       param: "inbox",
       paramValue: Daily.Inbox,
       icon: Inbox,
+    },
+  ];
+
+  // フッターアイテム
+  const footerItems = [
+    {
+      title: "ヘルプ",
+      url: "/help",
+      icon: HelpCircle,
+    },
+    {
+      title: "設定",
+      url: "/settings",
+      icon: Settings,
+    },
+    {
+      title: "アカウント",
+      url: "/account",
+      icon: UserIcon,
     },
   ];
 </script>

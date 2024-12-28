@@ -14,20 +14,21 @@
   import type { ProjectId } from "$src/types/core/project-id";
   import type { TaskListId } from "$src/types/core/task-list-id";
   import type { TaskId } from "$src/types/core/task-id";
+  import { filteredTaskList, updateFilteredTaskList } from "$src/lib/stores/filted-task-list.svelte";
+  import type { TaskListViewTasks } from "$src/types/components/tasklistview-tasks";
   async function selectedTask(task: Task) {
     selectedState.taskId = task.id;
   }
 
   const selected = selectedState;
 
-  // let taskList = filteredTaskList;
   let _projectTaskTree: ProjectTree[] = projectTaskTree;
 
   function filterTaskList(
     tree: ProjectTree[],
     f: SelectedState
   ): ProjectTree[] {
-
+    console.debug("filterTaskList");
     const whereProjectId = (project: ProjectTree, whereProjectId: ProjectId | null): boolean => {
       if (whereProjectId == null || whereProjectId === "") {
         return true;
@@ -72,25 +73,25 @@
 
   let tasks = filterTaskList(_projectTaskTree, selected);
 
-  console.debug(tasks);
-
   // taskListをフラット化してtaskList2に格納
-  let flattendTaskList = tasks.flatMap((project: ProjectTree) =>
+  let flatTaskList: TaskTree[] = tasks.flatMap((project: ProjectTree) =>
     project.taskLists.flatMap((taskList: TaskListTree) =>
       taskList.tasks.flatMap(
         (task: TaskTree) => [task]
       )
     )
   );
+
+  updateFilteredTaskList(flatTaskList);
 </script>
 
 <div class="h-screen flex">
   <!-- タスクリスト -->
   <div class="flex-1 bg-muted/30 relative flex flex-col">
     <div class="flex-1 overflow-auto">
-      {#if flattendTaskList && flattendTaskList.length > 0}
+      {#if flatTaskList && flatTaskList.length > 0}
         <div class="p-4 space-y-4">
-          {#each flattendTaskList as task}
+          {#each flatTaskList as task}
             <TaskItem
               {task}
               on:select={({ detail }) => selectedTask(detail.task)}
