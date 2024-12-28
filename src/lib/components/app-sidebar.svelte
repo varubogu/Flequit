@@ -1,23 +1,19 @@
 <script lang="ts">
-  import { page } from "$app/stores";
+  import { page } from "$app/state";
   import { sidebarProjects } from "$lib/stores/sidebar-projects.svelte";
   import { Button } from "$ui/button";
   import * as Sidebar from "$ui/sidebar/index";
   import * as Tooltip from "$ui/tooltip";
   import * as Collapsible from "$components/ui/collapsible";
   import {
-    CalendarDays,
-    Inbox,
     Plus,
-    Settings,
-    HelpCircle,
-    UserIcon,
     ChevronDown,
   } from "lucide-svelte";
   import SearchForm from "./search-form.svelte";
   import { goto } from "$app/navigation";
   import { selectedState } from "../stores/selected-store.svelte";
-  import { Daily } from "$src/types/enum/daily";
+  import { dailyItems } from "./app-sidebar.d/daily-items";
+  import { footerItems } from "./app-sidebar.d/footer-items";
 
   // ストアを購読
   let projects = sidebarProjects
@@ -25,7 +21,7 @@
 
   // ナビゲーション関数
   function updateSearchParams(updates: { [key: string]: string | null }) {
-    const searchParams = new URLSearchParams($page.url.searchParams);
+    const searchParams = new URLSearchParams(page.url.searchParams);
     Object.entries(updates).forEach(([key, value]) => {
       if (value === null) {
         searchParams.delete(key);
@@ -35,53 +31,6 @@
     });
     goto(`?${searchParams.toString()}`);
   }
-
-    // デイリータスク
-    const dailyItems = [
-    {
-      title: "今日",
-      param: "today",
-      paramValue: Daily.Today,
-      icon: CalendarDays,
-    },
-    {
-      title: "明日",
-      param: "tomorrow",
-      paramValue: Daily.Tomorrow,
-      icon: CalendarDays,
-    },
-    {
-      title: "今週",
-      param: "week",
-      paramValue: Daily.Week,
-      icon: CalendarDays,
-    },
-    {
-      title: "受信",
-      param: "inbox",
-      paramValue: Daily.Inbox,
-      icon: Inbox,
-    },
-  ];
-
-  // フッターアイテム
-  const footerItems = [
-    {
-      title: "ヘルプ",
-      url: "/help",
-      icon: HelpCircle,
-    },
-    {
-      title: "設定",
-      url: "/settings",
-      icon: Settings,
-    },
-    {
-      title: "アカウント",
-      url: "/account",
-      icon: UserIcon,
-    },
-  ];
 </script>
 
 <Sidebar.Root>

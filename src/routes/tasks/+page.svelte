@@ -16,6 +16,25 @@
   import {  updateFilteredTaskList } from "$src/lib/stores/filted-task-list.svelte";
   import { taskDetail } from "$src/lib/stores/task-detail.svelte";
   import TaskDetail from "$src/lib/components/task-detail.svelte";
+  import { page } from "$app/state";
+  import { sidebarProjects } from "$src/lib/stores/sidebar-projects.svelte";
+
+  // ストアを購読
+  let projects = sidebarProjects
+
+  // ナビゲーション関数
+  function updateSearchParams(updates: { [key: string]: string | null }) {
+    const searchParams = new URLSearchParams(page.url.searchParams);
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value === null) {
+        searchParams.delete(key);
+      } else {
+        searchParams.set(key, value);
+      }
+    });
+    goto(`?${searchParams.toString()}`);
+  }
+
   async function onSelectedTask(task: Task) {
     selectedState.taskId = task.id;
   }
