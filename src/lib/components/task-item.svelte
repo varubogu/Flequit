@@ -18,7 +18,6 @@
 
   let { task, onUpdate } = $props<{
     task: Task;
-    onUpdate: (updatedTask: Task) => void;
   }>();
 
   let dueDate = $derived(task?.dueDate ?? null);
@@ -50,12 +49,10 @@
               weekStartsOn={0}
               value={dueDate ? toDateValue(dueDate) : undefined}
               onValueChange={(date) => {
-                if (date) {
-                  const updatedTask = { ...task, dueDate: toDateTime(date) };
-                  onUpdate(updatedTask);
+                if (date && date !== dueDate) {
+                  task.dueDate = toDateTime(date);
                 } else {
-                  const updatedTask = { ...task, dueDate: null };
-                  onUpdate(updatedTask);
+                  task.dueDate = null;
                 }
               }}
             />

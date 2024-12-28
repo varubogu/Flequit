@@ -1,9 +1,9 @@
-import type { Project } from '$types/tree/project';
+import type { ProjectTree } from '$types/tree/project';
 
 // プロジェクトデータを$stateで管理
-const projectTaskTree = $state<Project[]>([]);
+const projectTaskTree = $state<ProjectTree[]>([]);
 
-export function updateProjectTaskTree(_projects: Project[]) {
+export function updateProjectTaskTree(_projects: ProjectTree[]) {
   projectTaskTree.length = 0;
   projectTaskTree.push(..._projects);
 }

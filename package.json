@@ -23,6 +23,7 @@
     "@tauri-apps/api": "^2.1.1",
     "@tauri-apps/plugin-opener": "^2.2.2",
     "globals": "^15.14.0",
+    "linq": "^4.0.3",
     "radix-svelte": "^0.9.0",
     "svelte-headless-table": "^0.18.3",
     "svelte-radix": "^2.0.1",

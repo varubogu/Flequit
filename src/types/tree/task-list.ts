@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { TaskListCoreSchema } from "$types/core/task-list";
-import { TaskSchema } from "$types/components/task";
+import { TaskTreeSchema } from "$types/tree/task";
 
-export const TaskListSchema = TaskListCoreSchema.extend({
-  tasks: z.array(TaskSchema),
+export const TaskListTreeSchema = TaskListCoreSchema.extend({
+  tasks: z.array(TaskTreeSchema),
 });
 
-export type TaskList = z.infer<typeof TaskListSchema>;
+export type TaskListTree = z.infer<typeof TaskListTreeSchema>;

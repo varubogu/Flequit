@@ -17,8 +17,9 @@
     selectedState.taskListId = page.url.searchParams.get("tasks");
     selectedState.taskId = page.url.searchParams.get("task");
     selectedState.subTaskId = page.url.searchParams.get("subTask");
-    console.log(page.url.searchParams);
   });
+  $inspect(page.url.searchParams);
+  $inspect(selectedState);
 
   onMount(() => {
     theme.initialize();
