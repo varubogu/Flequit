@@ -15,6 +15,7 @@
     toDateTime,
     toDateValue,
   } from "$src/types/primitive-extensions/date-time";
+  import { updateSearchParams } from "../actions/url-parameter";
 
   let { task, onUpdate, onSelect } = $props<{
     task: Task;
@@ -28,10 +29,7 @@
 <Card class=""
   onclick={() => {
     updateSearchParams({
-      daily: null,
-      project: project.id,
-      tasks: null,
-      task
+      task: task.id,
     });
   }}>
   <div class="cursor-pointer hover:bg-muted/50 p-4" role="button">

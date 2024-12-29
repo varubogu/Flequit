@@ -14,23 +14,11 @@
   import { selectedState } from "../stores/selected-store.svelte";
   import { dailyItems } from "./app-sidebar.d/daily-items";
   import { footerItems } from "./app-sidebar.d/footer-items";
+  import { updateSearchParams } from "$lib/actions/url-parameter";
 
   // ストアを購読
   let projects = sidebarProjects
   const selected = selectedState;
-
-  // ナビゲーション関数
-  function updateSearchParams(updates: { [key: string]: string | null }) {
-    const searchParams = new URLSearchParams(page.url.searchParams);
-    Object.entries(updates).forEach(([key, value]) => {
-      if (value === null) {
-        searchParams.delete(key);
-      } else {
-        searchParams.set(key, value);
-      }
-    });
-    goto(`?${searchParams.toString()}`);
-  }
 </script>
 
 <Sidebar.Root>
