@@ -6,9 +6,6 @@
         "varubogu"
     ],
     "svelte.enable-ts-plugin": true,
-    "i18n-ally.localesPaths": [
-        "src/i18n"
-    ],
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
@@ -21,4 +18,10 @@
         "typescriptreact",
         "svelte"
     ],
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[svelte]": {
+        "editor.defaultFormatter": "svelte.svelte-vscode"
+    },
 }

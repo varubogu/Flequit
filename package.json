@@ -5,18 +5,19 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide && vite build",
+    "build": "paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide && vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "tauri": "tauri",
-    "postinstall": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide",
+    "postinstall": "paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write ."
   },
   "license": "MIT",
   "dependencies": {
+    "@inlang/paraglide-js-adapter-vite": "^1.2.40",
     "@inlang/paraglide-sveltekit": "^0.15.0",
     "@inlang/paraglide-vite": "^1.3.0",
     "@tanstack/table-core": "^8.20.5",

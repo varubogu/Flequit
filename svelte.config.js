@@ -13,13 +13,13 @@ const config = {
     adapter: adapter(),
     alias: {
       "$src/*": "src/*",
+      "$lib/*": "src/lib/*",
       "$components/*": "src/lib/components/*",
       "$ui/*": "src/lib/components/ui/*",
-      "$lib/*": "src/lib/*",
+      "$paraglide/*": "src/lib/paraglide/*",
       "$routes/*": "src/routes/*",
       "$services/*": "src/services/*",
       "$types/*": "src/types/*",
-      "$paraglide/*": "src/lib/paraglide/*",
       "$utils/*": "src/utils/*"
     }
   },

@@ -14,5 +14,8 @@
   ],
   "plugin.inlang.messageFormat": {
     "pathPattern": "./messages/{languageTag}.json"
+  },
+  "plugin:paraglide-js": {
+    "outdir": "./src/lib/paraglide/messages"
   }
 }
