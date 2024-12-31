@@ -9,11 +9,11 @@ export enum Importance {
 export const ImportanceSchema = z.nativeEnum(Importance);
 
 export class ImportanceUtil {
-  static toImportance(value: number): Importance {
+  static parse(value: number): Importance {
     return ImportanceSchema.parse(value);
   }
 
-  static fromImportance(value: Importance): number {
+  static toNumber(value: Importance): number {
     return ImportanceSchema.parse(value);
   }
 }

@@ -5,8 +5,6 @@
   import { Popover, PopoverContent, PopoverTrigger } from "$ui/popover";
   import { buttonVariants } from "$ui/button";
   import { cn } from "$lib/utils";
-  import type { Task } from "$types/components/task";
-  import TaskCalendar from "./task-calendar.svelte";
   import {
     formatDateTimeHtml,
     getDueDateClass,
@@ -15,12 +13,13 @@
     toDateTime,
     toDateValue,
   } from "$src/types/primitive-extensions/date-time";
-  import { updateSearchParams } from "../actions/url-parameter";
+  import { updateSearchParams } from "$lib/stores/selected-store.svelte";
+  import type { TaskTree } from "$src/types/tree/task";
 
   let { task, onUpdate, onSelect } = $props<{
-    task: Task;
-    onUpdate: (task: Task) => void;
-    onSelect: (task: Task) => void;
+    task: TaskTree;
+    onUpdate: (task: TaskTree) => void;
+    onSelect: (task: TaskTree) => void;
   }>();
 
   let dueDate = $derived(task?.dueDate ?? null);

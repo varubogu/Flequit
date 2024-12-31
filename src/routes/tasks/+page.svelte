@@ -1,6 +1,6 @@
 <script lang="ts">
-  import TaskDetail from "$src/lib/components/task-detail.svelte";
-  import TaskList from "$src/lib/components/task-list.svelte";
+  import TaskDetail from "$lib/components/task-detail.svelte";
+  import TaskList from "$lib/components/task-list.svelte";
 </script>
 
 <div class="h-screen flex">

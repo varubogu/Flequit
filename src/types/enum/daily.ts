@@ -1,4 +1,3 @@
-
 import { z } from "zod";
 
 export enum Daily {
@@ -13,13 +12,13 @@ export enum Daily {
 export const DailySchema = z.nativeEnum(Daily);
 
 export class DailyUtil {
-  static toDaily(value: number): Daily | null;
-  static toDaily(value: string): Daily | null;
-  static toDaily(input: string | number): Daily | null {
-    if (typeof input === 'string') {
+  static parse(value: number): Daily | null;
+  static parse(value: string): Daily | null;
+  static parse(input: string | number): Daily | null {
+    if (typeof input === "string") {
       const result = DailySchema.safeParse(input);
       return result.success ? result.data : null;
-    } else if (typeof input === 'number') {
+    } else if (typeof input === "number") {
       const result = DailySchema.safeParse(input);
       return result.success ? result.data : null;
     } else {

@@ -7,4 +7,3 @@ export const TaskTreeSchema = TaskCoreSchema.extend({
 });
 
 export type TaskTree = z.infer<typeof TaskTreeSchema>;
-

@@ -14,7 +14,7 @@
   import { selectedState } from "../stores/selected-store.svelte";
   import { dailyItems } from "./app-sidebar.d/daily-items";
   import { footerItems } from "./app-sidebar.d/footer-items";
-  import { updateSearchParams } from "$lib/actions/url-parameter";
+  import { updateSearchParams } from "$lib/stores/selected-store.svelte";
 
   // ストアを購読
   let projects = sidebarProjects

@@ -9,11 +9,11 @@ export enum Priority {
 export const PrioritySchema = z.nativeEnum(Priority);
 
 export class PriorityUtil {
-  static toPriority(value: number): Priority {
+  static parse(value: number): Priority {
     return PrioritySchema.parse(value);
   }
 
-  static fromPriority(value: Priority): number {
+  static toNumber(value: Priority): number {
     return PrioritySchema.parse(value);
   }
 }

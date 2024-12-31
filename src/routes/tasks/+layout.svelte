@@ -12,7 +12,9 @@
   let { children } = $props();
 
   $effect(() => {
-    selectedState.daily = DailyUtil.toDaily(page.url.searchParams.get("daily") ?? "");
+    selectedState.daily = DailyUtil.parse(
+      page.url.searchParams.get("daily") ?? ""
+    );
     selectedState.projectId = page.url.searchParams.get("project");
     selectedState.taskListId = page.url.searchParams.get("tasks");
     selectedState.taskId = page.url.searchParams.get("task");
@@ -23,7 +25,6 @@
 
   onMount(() => {
     theme.initialize();
-
   });
 </script>
 
