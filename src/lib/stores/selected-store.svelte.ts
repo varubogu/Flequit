@@ -14,39 +14,40 @@ export const selectedState = $state<SelectedState>({
 
 export function updateSearchParams(updates: { [key: string]: string | null }) {
   const searchParams = new URLSearchParams(page.url.searchParams);
+  const params: { [key: string]: string | null } = {};
   Object.entries(updates).forEach(([key, value]) => {
     if (value === null) {
       searchParams.delete(key);
+      const convertedKey = convertKey(key);
+      if (convertedKey !== null) {
+        params[convertedKey] = null;
+      }
     } else {
       searchParams.set(key, value);
+      const convertedKey = convertKey(key);
+      if (convertedKey !== null) {
+        params[convertedKey] = value;
+      }
     }
   });
   console.log("searchParams: " + searchParams.toString());
-  Object.assign(selectedState, updates);
+  Object.assign(selectedState, params);
   console.log("selectedState: " + JSON.stringify(selectedState));
   goto(`?${searchParams.toString()}`);
 }
 
-const setNull = (key: string) => {
-  if (key === "daily") {
-    selectedState.daily = null;
-  } else if (key === "project") {
-    selectedState.projectId = null;
-  } else if (key === "tasks") {
-    selectedState.taskListId = null;
-  } else if (key === "task") {
-    selectedState.taskId = null;
-  }
-};
 
-const setValue = (key: string, value: string) => {
+function convertKey(key: string): string | null {
   if (key === "daily") {
-    selectedState.daily = DailyUtil.parse(value);
+    return "daily";
   } else if (key === "project") {
-    selectedState.projectId = value;
+    return "projectId";
   } else if (key === "tasks") {
-    selectedState.taskListId = value;
+    return "taskListId";
   } else if (key === "task") {
-    selectedState.taskId = value;
+    return "taskId";
+  } else if (key === "subTask") {
+    return "subTaskId";
   }
-};
+  return null;
+}

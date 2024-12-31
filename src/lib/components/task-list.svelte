@@ -43,7 +43,6 @@
 <div class="flex-1 bg-muted/30 relative flex flex-col">
   <div class="p-4 space-y-2">
     {#each tasks as task}
-    aa
       <TaskItem
         {task}
         onUpdate={handleTaskUpdate}
@@ -52,4 +51,3 @@
     {/each}
   </div>
 </div>
-d
