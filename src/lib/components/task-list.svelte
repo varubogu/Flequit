@@ -7,13 +7,10 @@
   import type { TaskListTree } from "$types/tree/task-list";
   import type { TaskTree } from "$types/tree/task";
 
-  // $derivedを使用して、projectTaskTreeとselectedStateの変更を監視
+  // $: を使用してselectedStateの変更を明示的に監視
   const filteredTasks: ProjectTree[] = $derived<ProjectTree[]>(
     filterTaskList(projectTaskTree, selectedState)
   );
-  $effect(() => {
-    console.log("filteredTasks", filteredTasks);
-  });
 
   // フラットなタスクリストも$derivedで計算
   const tasks: TaskTree[] = $derived<TaskTree[]>(
@@ -31,7 +28,6 @@
     console.log("tasks", tasks);
   });
 
-
   function handleTaskUpdate(task: TaskTree) {
     console.log("Task updated:", task);
   }
@@ -40,6 +36,7 @@
     console.log("Task selected:", task);
   }
 </script>
+
 <div class="flex-1 bg-muted/30 relative flex flex-col">
   <div class="p-4 space-y-2">
     {#each tasks as task}
