@@ -13,11 +13,11 @@ const createCalendarDateTime = (date: Date): CalendarDateTime => {
   return new CalendarDateTime(
     date.getFullYear(),
     date.getMonth() + 1,
-    date.getDate(),
-    23,
-    59,
-    59,
-    999,
+    date.getDate() + 1,
+    0,
+    0,
+    0,
+    0,
   );
 };
 
@@ -29,7 +29,8 @@ export function filterTaskList(
   if (f.daily != null) {
     const now = new Date();
     if (f.daily === Daily.Today) {
-      dueDate = createCalendarDateTime(now);
+      const today = new Date(now.getTime() + 1);
+      dueDate = createCalendarDateTime(today);
     } else if (f.daily === Daily.Tomorrow) {
       const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
       dueDate = createCalendarDateTime(tomorrow);
@@ -96,5 +97,5 @@ const whereDueDate = (
   if (task?.dueDate?.value == null) {
     return true;
   }
-  return task.dueDate.value <= whereDueDate;
+  return task.dueDate.value.compare(whereDueDate) < 0;
 };

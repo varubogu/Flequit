@@ -63,6 +63,21 @@ const initialData = async (): Promise<any> => {
                 tags: [
                   { id: "tag-2", name: "通常" }
                 ]
+              },
+              {
+                id: "task-3",
+                icon: "📝",
+                name: "期限昨日のタスク",
+                description: "昨日までのタスク",
+                importance: Importance.Low,
+                priority: Priority.Low,
+                dueDate: toDateTime(new Date(Date.now() - 24 * 60 * 60 * 1000)),
+                completeDate: null,
+                completed: false,
+                cycle: "once",
+                tags: [
+                  { id: "tag-3", name: "通常" }
+                ]
               }
             ]
           }
