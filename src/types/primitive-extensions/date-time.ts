@@ -4,14 +4,16 @@ import {
     type CalendarDateTime,
     parseDate,
     parseDateTime,
-    CalendarDateTime as CalendarDateTimeClass
+    CalendarDateTime as CalendarDateTimeClass,
+    ZonedDateTime
 } from "@internationalized/date";
 import { z } from "zod";
 
 export const DateTimeSchema = z.object({
     value: z.union([
         z.custom<CalendarDate>(),
-        z.custom<CalendarDateTime>()
+        z.custom<CalendarDateTime>(),
+        z.custom<ZonedDateTime>()
     ]),
     isTimeEmpty: z.boolean()
 });

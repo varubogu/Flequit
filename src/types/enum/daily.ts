@@ -3,6 +3,7 @@ import { z } from "zod";
 export enum Daily {
   Today = "today",
   Tomorrow = "tomorrow",
+  ThreeDaysLater = "threeDaysLater",
   Week = "week",
   Month = "month",
   Year = "year",
