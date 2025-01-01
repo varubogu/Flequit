@@ -20,8 +20,6 @@
     selectedState.taskId = page.url.searchParams.get("task");
     selectedState.subTaskId = page.url.searchParams.get("subTask");
   });
-  $inspect(page.url.searchParams);
-  $inspect(selectedState);
 
   onMount(() => {
     theme.initialize();

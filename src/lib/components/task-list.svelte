@@ -24,9 +24,6 @@
       )
     )
   );
-  $effect(() => {
-    console.log("tasks", tasks);
-  });
 
   function handleTaskUpdate(task: TaskTree) {
     console.log("Task updated:", task);

@@ -28,7 +28,7 @@
 <Card class=""
   onclick={() => {
     updateSearchParams({
-      task: task.id,
+      selectedTask: task.id,
     });
   }}>
   <div class="cursor-pointer hover:bg-muted/50 p-4" role="button">

@@ -1,8 +1,7 @@
 import { page } from "$app/state";
 import { goto } from "$app/navigation";
 import type { SelectedState } from "$types/state/selected-state";
-import { Daily, DailyUtil } from "$src/types/enum/daily";
-import type { isFileLoadingAllowed } from "vite";
+import { DailyUtil } from "$src/types/enum/daily";
 
 // プロジェクトデータを$stateで管理
 export const selectedState = $state<SelectedState>({
@@ -11,6 +10,7 @@ export const selectedState = $state<SelectedState>({
   taskListId: null,
   taskId: null,
   subTaskId: null,
+  selectedTask: null,
 });
 
 export function updateSearchParams(updates: { [key: string]: string | null }) {
@@ -30,14 +30,9 @@ export function updateSearchParams(updates: { [key: string]: string | null }) {
       params[convertedKey] = value;
     }
     setSelectedState(convertedKey, value);
-    console.log("selectedState111: " + JSON.stringify(selectedState));
   });
 
   goto(`?${searchParams.toString()}`);
-
-  // Object.assign(selectedState, params);
-
-  console.log("selectedState: " + JSON.stringify(selectedState));
 }
 
 function convertKey(key: string): string | null {
@@ -51,6 +46,8 @@ function convertKey(key: string): string | null {
     return "taskId";
   } else if (key === "subTask") {
     return "subTaskId";
+  } else if (key === "selectedTask") {
+    return "selectedTask";
   }
   return null;
 }
@@ -88,6 +85,12 @@ function setSelectedState(
       selectedState.subTaskId = null;
     } else {
       selectedState.subTaskId = value;
+    }
+  } else if (key === "selectedTask") {
+    if (value === null) {
+      selectedState.selectedTask = null;
+    } else {
+      selectedState.selectedTask = value;
     }
   }
 }

@@ -53,7 +53,6 @@ export function filterTaskList(
       dueDate = createCalendarDateTime(endOfWeek);
     }
   }
-  console.log("where// dueDate", dueDate);
 
   return Enumerable.from<ProjectTree>(tree)
     .where((project: ProjectTree) => whereProjectId(project, f.projectId))

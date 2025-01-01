@@ -5,12 +5,12 @@ import { TaskIdSchema } from '$types/core/task-id';
 import { DailySchema } from '$types/enum/daily';
 
 export const selectedStateSchema = z.object({
-    daily: DailySchema.nullable(),
-    projectId: ProjectIdSchema.nullable(),
-    taskListId: TaskListIdSchema.nullable(),
-    taskId: TaskIdSchema.nullable(),
-    subTaskId: TaskIdSchema.nullable(),
+  daily: DailySchema.nullable(),
+  projectId: ProjectIdSchema.nullable(),
+  taskListId: TaskListIdSchema.nullable(),
+  taskId: TaskIdSchema.nullable(),
+  subTaskId: TaskIdSchema.nullable(),
+  selectedTask: TaskIdSchema.nullable(),
 });
 
 export type SelectedState = z.infer<typeof selectedStateSchema>;
-
