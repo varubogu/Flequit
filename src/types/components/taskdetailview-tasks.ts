@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import { TaskSchema } from '$src/types/components/task';
 
-export const TaskDetailviewTasksSchema = TaskSchema.extend({
+export const TaskDetailViewTasksSchema = TaskSchema.extend({
     subTasks: z.array(TaskSchema),
 });
 
-export type TaskDetailviewTasks = z.infer<typeof TaskDetailviewTasksSchema>;
+export type TaskDetailViewTasks = z.infer<typeof TaskDetailViewTasksSchema>;

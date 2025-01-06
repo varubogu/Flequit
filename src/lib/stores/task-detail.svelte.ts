@@ -1,8 +1,8 @@
-import type { TaskDetailviewTasks } from '$src/types/components/taskdetailview-tasks';
+import type { TaskDetailViewTasks } from '$src/types/components/taskdetailview-tasks';
 import { Importance } from '$src/types/enum/importance';
 import { Priority } from '$src/types/enum/priority';
 
-const initialTaskDetail: TaskDetailviewTasks = {
+const initialTaskDetail: TaskDetailViewTasks = {
     id: '',
     icon: '',
     name: '',
@@ -16,9 +16,9 @@ const initialTaskDetail: TaskDetailviewTasks = {
     subTasks: []
 }
 
-let taskDetail = $state<TaskDetailviewTasks>(initialTaskDetail);
+let taskDetail = $state<TaskDetailViewTasks>(initialTaskDetail);
 
-export function setTaskDetail(task: TaskDetailviewTasks) {
+export function setTaskDetail(task: TaskDetailViewTasks) {
     Object.assign(taskDetail, task);
 }
 
