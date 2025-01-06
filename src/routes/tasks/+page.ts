@@ -4,15 +4,16 @@ import { Importance } from "$types/enum/importance";
 import { Priority } from "$types/enum/priority";
 import { updateProjectTaskTree } from "$lib/stores/project-task-tree.svelte";
 import { updateProjects } from "$lib/stores/sidebar-projects.svelte";
-import type { Project } from "$types/components/project";
+import type { ProjectTree } from "$src/types/tree/project";
+import type { SidebarProjects } from "$src/types/components/sidebar-projects";
 
 export const load = (async () => {
   // 将来的にはここでAPIからデータを取得する
   const data = await initialData();
 
   // プロジェクトデータをストアに登録
-  updateProjectTaskTree(data.projects as Project[]);
-  updateProjects(data.projects as Project[]);
+  updateProjectTaskTree(data.projects as ProjectTree[]);
+  updateProjects(data.projects as SidebarProjects[]);
 
   // 呼び出し元で終了検知のため空オブジェクトを返す
   return {};
@@ -22,6 +23,9 @@ export const load = (async () => {
 
 // 初期ダミーデータ
 const initialData = async (): Promise<any> => {
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+
   return {
     projects: [
       {
@@ -41,7 +45,7 @@ const initialData = async (): Promise<any> => {
                 description: "今日中に完了すべきタスク",
                 importance: Importance.High,
                 priority: Priority.High,
-                dueDate: toDateTime(new Date()),
+                dueDate: toDateTime(today),
                 completeDate: null,
                 completed: false,
                 cycle: "once",
@@ -56,7 +60,7 @@ const initialData = async (): Promise<any> => {
                 description: "明日までのタスク",
                 importance: Importance.Medium,
                 priority: Priority.Medium,
-                dueDate: toDateTime(new Date(Date.now() + 24 * 60 * 60 * 1000)),
+                dueDate: toDateTime(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 23, 59, 59, 999)),
                 completeDate: null,
                 completed: false,
                 cycle: "once",
@@ -71,7 +75,7 @@ const initialData = async (): Promise<any> => {
                 description: "昨日までのタスク",
                 importance: Importance.Low,
                 priority: Priority.Low,
-                dueDate: toDateTime(new Date(Date.now() - 24 * 60 * 60 * 1000)),
+                dueDate: toDateTime(new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, 23, 59, 59, 999)),
                 completeDate: null,
                 completed: false,
                 cycle: "once",
@@ -86,7 +90,7 @@ const initialData = async (): Promise<any> => {
                 description: "3日後のタスク",
                 importance: Importance.Low,
                 priority: Priority.Low,
-                dueDate: toDateTime(new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)),
+                dueDate: toDateTime(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 3, 23, 59, 59, 999)),
                 completeDate: null,
                 completed: false,
                 cycle: "once",
@@ -98,7 +102,7 @@ const initialData = async (): Promise<any> => {
                 description: "4日後のタスク",
                 importance: Importance.Low,
                 priority: Priority.Low,
-                dueDate: toDateTime(new Date(Date.now() + 4 * 24 * 60 * 60 * 1000)),
+                dueDate: toDateTime(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 4, 23, 59, 59, 999)),
                 completeDate: null,
                 completed: false,
                 cycle: "once",
@@ -110,7 +114,7 @@ const initialData = async (): Promise<any> => {
                 description: "5日後のタスク",
                 importance: Importance.Low,
                 priority: Priority.Low,
-                dueDate: toDateTime(new Date(Date.now() + 5 * 24 * 60 * 60 * 1000)),
+                dueDate: toDateTime(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 5, 23, 59, 59, 999)),
                 completeDate: null,
                 completed: false,
                 cycle: "once",
@@ -122,7 +126,7 @@ const initialData = async (): Promise<any> => {
                 description: "6日後のタスク",
                 importance: Importance.Low,
                 priority: Priority.Low,
-                dueDate: toDateTime(new Date(Date.now() + 6 * 24 * 60 * 60 * 1000)),
+                dueDate: toDateTime(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 6, 23, 59, 59, 999)),
                 completeDate: null,
                 completed: false,
                 cycle: "once",
@@ -134,7 +138,7 @@ const initialData = async (): Promise<any> => {
                 description: "7日後のタスク",
                 importance: Importance.Low,
                 priority: Priority.Low,
-                dueDate: toDateTime(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)),
+                dueDate: toDateTime(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7, 23, 59, 59, 999)),
                 completeDate: null,
                 completed: false,
                 cycle: "once",
@@ -146,7 +150,7 @@ const initialData = async (): Promise<any> => {
                 description: "8日後のタスク",
                 importance: Importance.Low,
                 priority: Priority.Low,
-                dueDate: toDateTime(new Date(Date.now() + 8 * 24 * 60 * 60 * 1000)),
+                dueDate: toDateTime(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 8, 23, 59, 59, 999)),
                 completeDate: null,
                 completed: false,
                 cycle: "once",
@@ -172,7 +176,7 @@ const initialData = async (): Promise<any> => {
                 description: "Q4の業績レポートを作成する",
                 importance: Importance.High,
                 priority: Priority.High,
-                dueDate: toDateTime(new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)),
+                dueDate: toDateTime(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 3, 23, 59, 59, 999)),
                 completeDate: null,
                 completed: false,
                 cycle: "once",
@@ -185,7 +189,7 @@ const initialData = async (): Promise<any> => {
                     description: "各部署からのデータを収集",
                     importance: Importance.High,
                     priority: Priority.High,
-                    dueDate: toDateTime(new Date(Date.now() + 24 * 60 * 60 * 1000)),
+                    dueDate: toDateTime(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 23, 59, 59, 999)),
                     completeDate: null,
                     completed: false,
                     cycle: "once"
@@ -197,7 +201,7 @@ const initialData = async (): Promise<any> => {
                     description: "収集したデータからグラフを作成",
                     importance: Importance.Medium,
                     priority: Priority.Medium,
-                    dueDate: toDateTime(new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)),
+                    dueDate: toDateTime(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 2, 23, 59, 59, 999)),
                     completeDate: null,
                     completed: false,
                     cycle: "once"
@@ -218,7 +222,7 @@ const initialData = async (): Promise<any> => {
                 description: "チームの週次ミーティング",
                 importance: Importance.Medium,
                 priority: Priority.Medium,
-                dueDate: toDateTime(new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)),
+                dueDate: toDateTime(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 2, 23, 59, 59, 999)),
                 completeDate: null,
                 completed: false,
                 cycle: "weekly",
@@ -245,7 +249,7 @@ const initialData = async (): Promise<any> => {
                 description: "スーパーで食材を購入",
                 importance: Importance.Low,
                 priority: Priority.Low,
-                dueDate: toDateTime(new Date(Date.now() + 5 * 24 * 60 * 60 * 1000)),
+                dueDate: toDateTime(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 5, 23, 59, 59, 999)),
                 completeDate: null,
                 completed: false,
                 cycle: "once",
@@ -258,7 +262,7 @@ const initialData = async (): Promise<any> => {
                     description: "にんじん、じゃがいも、玉ねぎ",
                     importance: Importance.Low,
                     priority: Priority.Low,
-                    dueDate: toDateTime(new Date(Date.now() + 5 * 24 * 60 * 60 * 1000)),
+                    dueDate: toDateTime(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 5, 23, 59, 59, 999)),
                     completeDate: null,
                     completed: false,
                     cycle: "once"
