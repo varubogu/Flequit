@@ -1,7 +1,10 @@
 import type { DateTime } from "$src/types/primitive-extensions/date-time";
 import { toJsDate } from "$src/types/primitive-extensions/date-time";
 
-export function formatDateTimeHtml(date: DateTime | null, options?: { showTime?: boolean; breakLine?: boolean }): string {
+export function formatDateTimeHtml(
+    date: DateTime | null,
+    options?: { showTime?: boolean; breakLine?: boolean },
+): string | null {
     if (!date) return "期限なし";
 
     if (options?.showTime) {
@@ -16,9 +19,22 @@ export function getDueDateClass(dueDate: DateTime | null): string | null {
     const dueJsDate = toJsDate(dueDate);
     if (!dueJsDate) {
         return null;
-    } else {
-        return dueJsDate < now ? "text-red-500" : "text-blue-500";
     }
+
+    const expiredColor = "text-red-500";
+    const notExpiredColor = "text-blue-500";
+    if (dueDate.isTimeEmpty) {
+        const dueDate = new Date(
+            dueJsDate.getFullYear(),
+            dueJsDate.getMonth() + 1,
+            dueJsDate.getDate(),
+            23, 59, 59, 999,
+        );
+        console.log("dueDate", dueDate);
+        console.log("now", now);
+        return dueDate < now ? expiredColor : notExpiredColor;
+    }
+    return dueJsDate < now ? expiredColor : notExpiredColor;
 }
 
 function _formatDate(date: DateTime): string | null {
