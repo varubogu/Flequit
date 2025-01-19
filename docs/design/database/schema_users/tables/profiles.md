@@ -6,15 +6,15 @@ Table for storing user profile information.
 
 ## structure
 
-| Column Name      | Data Type     | NULL |      Default      | Primary Key | Foreign Key | Unique | Check Constraint |    Description     |
-|------------------|---------------|------|-------------------|-------------|-------------|--------|------------------|--------------------|
-| id               | INTEGER       | NO   |                   | YES         |             | YES    |                  | Unique identifier for the profile |
-| user_id          | INTEGER       | NO   |                   |             | users(id)   |        |                  | User ID (foreign key)   |
-| display_name     | VARCHAR(255)  | YES  |                   |             |             |        |                  | Display name              |
-| bio              | TEXT          | YES  |                   |             |             |        |                  | Biography text          |
-| profile_picture   | VARCHAR(255)  | YES  |                   |             |             |        |                  | URL of the profile picture   |
-| created_at       | TIMESTAMP     | NO   | CURRENT_TIMESTAMP |             |             |        |                  | Profile creation timestamp   |
-| updated_at       | TIMESTAMP     | NO   | CURRENT_TIMESTAMP |             |             |        |                  | Profile update timestamp   |
+|   Column Name   |  Data Type   | NULL |      Default      | Primary Key | Foreign Key | Unique | Check Constraint |            Description            |
+| --------------- | ------------ | ---- | ----------------- | ----------- | ----------- | ------ | ---------------- | --------------------------------- |
+| id              | INTEGER      | NO   |                   | YES         |             | YES    |                  | Unique identifier for the profile |
+| user_id         | INTEGER      | NO   |                   |             | users(id)   |        |                  | User ID (foreign key)             |
+| display_name    | VARCHAR(255) | YES  |                   |             |             |        |                  | Display name                      |
+| bio             | TEXT         | YES  |                   |             |             |        |                  | Biography text                    |
+| profile_picture | VARCHAR(255) | YES  |                   |             |             |        |                  | URL of the profile picture        |
+| created_at      | TIMESTAMP    | NO   | CURRENT_TIMESTAMP |             |             |        |                  | Profile creation timestamp        |
+| updated_at      | TIMESTAMP    | NO   | CURRENT_TIMESTAMP |             |             |        |                  | Profile update timestamp          |
 
 ## indexes
 

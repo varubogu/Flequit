@@ -6,14 +6,14 @@ Table design for linking project and other user IDs.
 
 ## structure
 
-| Column Name      | Data Type     | NULL |      Default      | Primary Key | Foreign Key | Unique | Check Constraint |    Description     |
-|------------------|---------------|------|-------------------|-------------|-------------|--------|------------------|--------------------|
-| id               | INTEGER       | NO   |                   | YES         |             | YES    |                  | Unique identifier for the user ID |
-| project_id       | INTEGER       | NO   |                   |             | projects(id)|        |                  | Project ID (foreign key) |
-| user_id          | INTEGER       | NO   |                   |             | users(id)   |        |                  | User ID (foreign key)   |
-| role             | VARCHAR(50)   | YES  |                   |             |             |        |                  | User's role         |
-| created_at       | TIMESTAMP     | NO   | CURRENT_TIMESTAMP |             |             |        |                  | Creation timestamp   |
-| updated_at       | TIMESTAMP     | NO   | CURRENT_TIMESTAMP |             |             |        |                  | Update timestamp     |
+| Column Name |  Data Type  | NULL |      Default      | Primary Key | Foreign Key  | Unique | Check Constraint |            Description            |
+| ----------- | ----------- | ---- | ----------------- | ----------- | ------------ | ------ | ---------------- | --------------------------------- |
+| id          | INTEGER     | NO   |                   | YES         |              | YES    |                  | Unique identifier for the user ID |
+| project_id  | INTEGER     | NO   |                   |             | projects(id) |        |                  | Project ID (foreign key)          |
+| user_id     | INTEGER     | NO   |                   |             | users(id)    |        |                  | User ID (foreign key)             |
+| role        | VARCHAR(50) | YES  |                   |             |              |        |                  | User's role                       |
+| created_at  | TIMESTAMP   | NO   | CURRENT_TIMESTAMP |             |              |        |                  | Creation timestamp                |
+| updated_at  | TIMESTAMP   | NO   | CURRENT_TIMESTAMP |             |              |        |                  | Update timestamp                  |
 
 ## indexes
 
