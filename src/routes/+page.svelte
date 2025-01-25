@@ -1,5 +1,5 @@
 <script lang="ts">
-  import * as m from "$lib/paraglide/messages.js";
+  import * as m from "$lib/paraglide/messages";
   import { onSetLanguageTag, setLanguageTag } from "$paraglide/runtime";
   import { invoke } from "@tauri-apps/api/core";
 
