@@ -42,7 +42,7 @@
               <div class="cursor-pointer px-1">
                 <p
                   class="text-sm hover:text-muted-foreground {getDueDateClass(
-                    dueDate,
+                    dueDate
                   )}"
                 >
                   {@html formatDateTimeHtml(dueDate)}
