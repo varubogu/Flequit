@@ -98,6 +98,10 @@
 - Name
 - Email
 - Role
+- ServerUrl
+- Password
+- 2FACode
+- Passkey
 
 ### ProjectSettings
 
