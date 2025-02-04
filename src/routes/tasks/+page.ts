@@ -4,8 +4,9 @@ import { Importance } from "$types/enum/importance";
 import { Priority } from "$types/enum/priority";
 import { updateProjectTaskTree } from "$lib/stores/project-task-tree.svelte";
 import { updateProjects } from "$lib/stores/sidebar-projects.svelte";
-import type { ProjectTree } from "$src/types/tree/project";
-import type { SidebarProjects } from "$src/types/components/sidebar-projects";
+import type { ProjectTree } from "$types/tree/project-tree";
+import type { SidebarProjects } from "$types/components/sidebar-projects";
+
 
 export const load = (async () => {
   // 将来的にはここでAPIからデータを取得する

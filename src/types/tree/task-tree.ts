@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { SubTaskTreeSchema } from "$types/tree/sub-task";
+import { SubTaskTreeSchema } from "$src/types/tree/sub-task-tree";
 import { TaskCoreSchema } from "$types/core/task";
 
 export const TaskTreeSchema = TaskCoreSchema.extend({

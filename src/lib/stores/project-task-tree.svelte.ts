@@ -1,4 +1,4 @@
-import type { ProjectTree } from '$types/tree/project';
+import type { ProjectTree } from '$types/tree/project-tree';
 
 const initialProjectTree: ProjectTree[] = [];
 

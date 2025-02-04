@@ -3,9 +3,9 @@
   import { selectedState } from "$lib/stores/selected-store.svelte";
   import { projectTaskTree } from "$lib/stores/project-task-tree.svelte";
   import { filterTaskList } from "$lib/utils/task-filter";
-  import type { ProjectTree } from "$types/tree/project";
-  import type { TaskListTree } from "$types/tree/task-list";
-  import type { TaskTree } from "$types/tree/task";
+  import type { ProjectTree } from "$types/tree/project-tree";
+  import type { TaskListTree } from "$types/tree/task-list-tree";
+  import type { TaskTree } from "$types/tree/task-tree";
 
   // $: を使用してselectedStateの変更を明示的に監視
   const filteredTasks: ProjectTree[] = $derived<ProjectTree[]>(

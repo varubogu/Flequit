@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { TaskListCoreSchema } from "$types/core/task-list";
-import { TaskTreeSchema } from "$types/tree/task";
+import { TaskTreeSchema } from "$src/types/tree/task-tree";
 
 export const TaskListTreeSchema = TaskListCoreSchema.extend({
   tasks: z.array(TaskTreeSchema),

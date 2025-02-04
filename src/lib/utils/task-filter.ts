@@ -1,8 +1,8 @@
-import type { ProjectTree } from "$src/types/tree/project";
-import type { SelectedState } from "$src/types/state/selected-state";
-import type { TaskListTree } from "$src/types/tree/task-list";
-import type { TaskTree } from "$src/types/tree/task";
-import type { ProjectId } from "$src/types/core/project-id";
+import type { ProjectTree } from "$types/tree/project-tree";
+import type { SelectedState } from "$types/state/selected-state";
+import type { TaskListTree } from "$types/tree/task-list-tree";
+import type { TaskTree } from "$types/tree/task-tree";
+import type { ProjectId } from "$types/core/project-id";
 import type { TaskListId } from "$src/types/core/task-list-id";
 import type { TaskId } from "$src/types/core/task-id";
 import Enumerable from "linq";

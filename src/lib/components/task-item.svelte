@@ -15,7 +15,7 @@
     type DateTime,
   } from "$src/types/primitive-extensions/date-time";
   import { updateSearchParams } from "$lib/stores/selected-store.svelte";
-  import type { TaskTree } from "$src/types/tree/task";
+  import type { TaskTree } from "$types/tree/task-tree";
   import type { DateValue } from "@internationalized/date";
 
   let { task, onUpdate, onSelect } = $props<{
