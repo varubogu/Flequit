@@ -3,7 +3,7 @@
 ## Tree Structure
 
 - App(1)
-  - Account(n)
+  - Account(n) ※Storeに登録
     - AccountSettings(1)
     - Project(n)
       - Members(n)
@@ -12,12 +12,29 @@
       - Lists(n)
         - Tasks(n)
           - SubTasks(n)
-  - CommonSettings(1)
+  - CommonSettings(1) ※Storeに登録
     - DailySettings(1)
-  - SideMenuTree(1)
+    - Theme(1)
+    - Locale(1)
+  - SideMenuTree(1) ※Storeに登録
+    - Term(1)
+      - Project
+      - List
+      - Task
+      - SubTask
+      - Daily
+      - Tag
+      - Account
+      - String
     - Daily(1)
     - Projects(n)
       - Lists(n)
+  - SelectedState(1) ※Storeに登録
+    - Daily(1)
+    - Project(1)
+    - List(1)
+    - Task(1)
+    - SubTask(1)
 
 ## Items
 
